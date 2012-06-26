@@ -14,6 +14,7 @@
 	<meta name="viewport" content="width=device-width">
 
 	<link rel="stylesheet/less" href="less/style.less">
+  <link rel="stylesheet" href="fonts/fonts.css">
 	<script src="js/libs/less-1.3.0.min.js"></script>
 
 	<!-- Use SimpLESS (Win/Linux/Mac) or LESS.app (Mac) to compile your .less files
@@ -28,14 +29,17 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
+          <div class="ajuntament row">
+             <a href="http://www.bcn.cat"><img src="img/ajuntament.jpg"/> Ajuntament de Barcelona</a>
+             <div id="languages" class="offset8 span2">
+                <a href="#">Català</a><span>&nbsp;/&nbsp;</span><a href="#">Castellà</a>
+              </div>
+          </div>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Visita d'obres</a></li>
+              <li class="active">
+                  <a data-toggle="collapse" data-parent="#accordion2" href="#home">Visita d'obres</a>
+              </li>
               <li><a href="#about">Sobre el projecte</a></li>
               <li><a href="#contact">Contacta</a></li>
             </ul>
@@ -44,71 +48,29 @@
       </div>
     </div>
 
-    <div class="container">
-
-     <div id="seccions" class="">
-      <div id="home">
-
-        <div class="section" >
-          <h1> VISITA
-           <strong> D'OBRES</strong> </h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien mi, ultricies nec interdum id, pulvinar eget magna. Duis sodales leo id orci fringilla volutpat vulputate ac dui.</p>
-        </div>
-
-      </div>
-
-      <div class="section" id="impactes">
-          <div class="header">
-            <h2>IMPACTES</h2>
-            <h3>Les petjades de la transformació</h3>
-            <a class="toggle-section" data-toggle="collapse" data-target="#impactesCD" data-parent="#seccions">X</a>
-          </div>
-          <div id="impactesCD" class="collapse content" >
-             impactes section
-          </div>
-      </div>
-
-      <div class="section" id="miratges">
-          <div class="header">
-            <h2>MIRATGES</h2>
-            <h3>Metamorfosi del paisatge</h3>
-            <a class="toggle-section" data-toggle="collapse" data-target="#miratgesCD" data-parent="#seccions">X</a>
-          </div>
-          <div id="miratgesCD" class="collapse content">
-             miratges section
-          </div>
-      </div>
-
-      <div class="section" id="testimonis">
-          <div class="header">
-            <h2>TESTIMONIS</h2>
-            <h3>Entrevistes des de la barrera</h3>
-            <a class="toggle-section" data-toggle="collapse" data-target="#testimonisCD" data-parent="#seccions">X</a>
-          </div>
-          <div id="testimonisCD" class="collapse content" >
-             collpse section
-          </div>
-      </div>
-    </div> <!-- Sections-->
+    <div class="container-fluid main">
 
 
 <div class="accordion" id="accordion2">
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-                  Collapsible Group Item #1
-                </a>
-              </div>
-              <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">
+
+            <div class="accordion-group visible">
+               <div class="accordion-body collapse in" id="home" >
                 <div class="accordion-inner">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                  <h1> VISITA
+                   <strong> D'OBRES</strong> </h1>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sapien mi, ultricies nec interdum id, pulvinar eget magna. Duis sodales leo id orci fringilla volutpat vulputate ac dui.</p>
+
                 </div>
+                <div id="peuhome"></div>
               </div>
             </div>
+
             <div class="accordion-group">
               <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-                  Collapsible Group Item #2
+                    <h2>IMPACTES</h2>
+                    <h3>Les petjades de la transformació</h3>
+                    <i class="fletxa"></i>
                 </a>
               </div>
               <div id="collapseTwo" class="accordion-body collapse" style="height: 0px; ">
@@ -117,22 +79,40 @@
                 </div>
               </div>
             </div>
+
             <div class="accordion-group">
               <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-                  Collapsible Group Item #3
+                    <h2>MIRATGES</h2>
+                    <h3>Metamorfosi del paisatge</h3>
+                    <i class="fletxa"></i>
                 </a>
               </div>
-              <div id="collapseThree" class="accordion-body in collapse" style="height: auto; ">
+              <div id="collapseThree" class="accordion-body collapse" style="height: 0px; ">
                 <div class="accordion-inner">
                   Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                 </div>
               </div>
             </div>
+
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                  <h2>TESTIMONIS</h2>
+                  <h3>Entrevistes des de la barrera</h3>
+                    <i class="fletxa"></i>
+                </a>
+              </div>
+              <div id="collapseFour" class="accordion-body collapse" style="height: 0px; ">
+                <div class="accordion-inner">
+                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+              </div>
+            </div>
+
           </div>
 
       <footer>
-        <p>&copy; Iskra 2012</p>
       </footer>
 
     </div> <!-- /container -->

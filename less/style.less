@@ -15,71 +15,192 @@ body {
 
 @groc: #FDD11E;
 @groc2: #FECD02;
-@gris: #333333;
-@fonsgris: #151515;
-@padding-main: 40px 30px 0px 30px;
+@grisclar: #AAAAAA;
+@gris34: #454545;
+@grismig: #303030;
+@grisfosc: #151515;
+@padding-main: 80px 30px 0px 30px;
 
-.container {
+body {
+    background-color: @grisfosc;
+    font-weight:normal;
+}
+
+.container, .navbar-fixed-top .container {
 width:auto;
 
 }
 
+.container-fluid.main {
+    margin-top:38px;
+}
+
+.container-fluid {
+    padding:0px;
+}
+
 #home {
-  margin-top:-20px;
+/*  margin-top:-20px;*/
   background-color: @groc;
-  padding: @padding-main;
-  color:@gris;
-  height:400px;
+  background-image: url('../img/fons_portada.jpg');
+  color:@grisfosc;
+  height:auto;
     h1 {
+         font-family: "InterstateLightCondensed", "Verdana";
          font-weight:normal;
          width:30px;
          line-height:80px;
-         font-size: 80px;
+         font-size: 100px;
          strong {
-           font-weight: bold;
+           font-family: "InterstateBlackCondensed", "Verdana";
+           font-weight:normal;
+           font-size: 100px;
          }
        }
     p {
+         font-family: "InterstateBold", "Verdana";
+         font-weight:normal;
          width: 50%;
          font-size:18px;
          line-height:18px;
-         font-weight:bold;
+         margin-top:20px;
+         margin-bottom:120px;
+         letter-spacing:0.9px;
     }
+   .accordion-inner {
+      padding: @padding-main;
+   }
 
 }
 
-div.section {
-    height:60px;
-    background-color:@fonsgris;
-    padding:20px 30px 40px 20px;
+#peuhome {
+    height:29px;
+    background-image: url('../img/peu_home.png');
+    background-repeat: repeat-x;
+}
 
-    border-bottom:1px solid @gris;
 
-    h2 {
-        color:@groc2;
-        font-size:40px;
-        line-height:40px;
+.accordion {
+    margin-top:-20px;
+
+}
+
+.accordion-group {
+
+    border:none;
+    margin-bottom:0px;
+    .accordion-heading {
+        height:60px;
+        background-color:@grisfosc;
+        background-image: url('../img/textura_fons_titols.gif');
+        background-repeat: repeat;
+        padding:20px 30px 40px 20px;
+        border-bottom:1px solid @grismig;
+
+        a {text-decoration:none;}
+        h2 {
+            font-family: "InterstateBoldCondensed", "Verdana";
+            font-weight:normal;
+            color:@groc2;
+            font-size:50px;
+            line-height:50px;
+        }
+
+        h3 {
+            font-family: "InterstateRegular", "Verdana";
+            font-weight:normal;
+            color:white;
+            font-size:30px;
+            line-height:30px;
+        }
+
+        .toggle-section {
+            float:right;
+            margin-top:-40px;
+        }
+
+
+    }
+}
+
+
+    .accordion-inner {
+        border:none;
     }
 
-    h3 {
-        color:white;
-        font-size:30px;
-        line-height:30px;
-    }
 
-    .toggle-section {
+
+.accordion-toggle {
+    position:relative;
+}
+
+i.fletxa {
+        background-image: url('../img/fletxa_desplega_inactiva.png');
+        background-repeat: repeat-none;
+        width:34px;
+        height:33px;
+        display:block;
         float:right;
-        margin-top:-40px;
-    }
+        position:absolute;
+        top:10px;
+        right:20px;
+        &:hover {
+            background-image: url('../img/fletxa_desplega_activa.png');
+        }
+}
+
+.visible i.fletxa {
+        background-image: url('../img/fletxa_plega_inactiva.png');
+        &:hover {
+            background-image: url('../img/fletxa_plega_activa.png');
+        }
 
 }
 
 
 
+.navbar .nav {
+        font-family: "InterstateBold", "Verdana";
+        font-weight:normal;
+
+        li a{
+            color:@grisclar;
+            font-size:12px;
+            line-height:12px;
+            padding-top:20px;
+        }
+
+        li.active a{
+            padding-top:10px;
+            color:@groc;
+            font-size:24px;
+            line-height:24px;
+            background-color:transparent;
+            &:hover{
+                background-color:transparent;
+            }
+        }
+}
 
 
 
 
+.ajuntament {
+     height:30px;
+     border-bottom: 1px solid @gris34;
+     a {
+         color:white;
+         text-decoration:none;
+     }
 
+     #languages {
+            color:white;
+            text-decoration:none;
+            margin-top:-30px;
+     }
+}
 
+.nav-collapse {
 
+    padding-left:50px;
+}
