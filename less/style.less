@@ -32,7 +32,8 @@ width:auto;
 }
 
 .container-fluid.main {
-    margin-top:38px;
+    margin-top:36px;
+
 }
 
 .container-fluid {
@@ -90,11 +91,10 @@ width:auto;
     border:none;
     margin-bottom:0px;
     .accordion-heading {
-        height:60px;
         background-color:@grisfosc;
         background-image: url('../img/textura_fons_titols.gif');
         background-repeat: repeat;
-        padding:20px 30px 40px 20px;
+        padding:8px 30px 5px 20px;
         border-bottom:1px solid @grismig;
 
         a {text-decoration:none;}
@@ -102,8 +102,8 @@ width:auto;
             font-family: "InterstateBoldCondensed", "Verdana";
             font-weight:normal;
             color:@groc2;
-            font-size:50px;
-            line-height:50px;
+            font-size:30px;
+            line-height:30px;
         }
 
         h3 {
@@ -112,6 +112,8 @@ width:auto;
             color:white;
             font-size:30px;
             line-height:30px;
+            padding-bottom:20px;
+            display:none;
         }
 
         .toggle-section {
@@ -121,12 +123,17 @@ width:auto;
 
 
     }
+    &#impactes {
+        .accordion-heading {
+            border-top:1px solid @grismig;
+        }
+    }
 }
 
 
-    .accordion-inner {
-        border:none;
-    }
+.accordion-inner {
+    border:none;
+}
 
 
 
@@ -142,7 +149,7 @@ i.fletxa {
         display:block;
         float:right;
         position:absolute;
-        top:10px;
+        top:5px;
         right:20px;
         &:hover {
             background-image: url('../img/fletxa_desplega_activa.png');
@@ -155,6 +162,45 @@ i.fletxa {
             background-image: url('../img/fletxa_plega_activa.png');
         }
 
+}
+
+
+#accordion2.athome {
+    .accordion-heading {
+        h2 {
+            font-size:50px;
+            line-height:50px;
+        }
+        h3 {
+            display:block;
+        }
+    }
+
+}
+
+
+.accordion-group.visible {
+    .accordion-heading {
+        background-image: none;
+        background-repeat: none;
+        border-bottom:none;
+        h2 {
+            float:left;
+            font-size:50px;
+            line-height:50px;
+
+        }
+
+        h3 {
+            font-size: 20px;
+            line-height: 23px;
+            display:block;
+        }
+    }
+
+    &#impactes { h3 { margin-left:220px; width:165px; } }
+    &#miratges { h3 { margin-left:220px; width:150px; } }
+    &#testimonis { h3 { margin-left:260px; width:180px; } }
 }
 
 
@@ -186,17 +232,26 @@ i.fletxa {
 
 
 .ajuntament {
+     font-family: "InterstateRegular", "Verdana";
+     font-weight:normal;
+     font-size: 12px;
+
      height:30px;
      border-bottom: 1px solid @gris34;
+     position: relative;
+     width: 100%;
      a {
          color:white;
          text-decoration:none;
      }
 
      #languages {
+            width:100px;
+            position:absolute;
             color:white;
             text-decoration:none;
-            margin-top:-30px;
+            top: 5px;
+            right:10px;
      }
 }
 
