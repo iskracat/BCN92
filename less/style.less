@@ -19,16 +19,17 @@ body {
 @gris34: #454545;
 @grismig: #303030;
 @grisfosc: #151515;
+@fonsseccio: #1D1B1C;
 @padding-main: 80px 30px 0px 30px;
 
 body {
-    background-color: @grisfosc;
+    background-color: @fonsseccio;
     font-weight:normal;
 }
 
 .container, .navbar-fixed-top .container {
-width:auto;
-
+    width:auto;
+    background-color: black;
 }
 
 .container-fluid.main {
@@ -90,8 +91,8 @@ width:auto;
 
     border:none;
     margin-bottom:0px;
+    background-color:@fonsseccio;
     .accordion-heading {
-        background-color:@grisfosc;
         background-image: url('../img/textura_fons_titols.gif');
         background-repeat: repeat;
         padding:8px 30px 5px 20px;
@@ -258,4 +259,16 @@ i.fletxa {
 .nav-collapse {
 
     padding-left:50px;
+}
+
+
+#miratgesCarousel {
+    .carousel-inner {
+        .item {
+            width: 800px;
+            height:300px;
+            margin: 0 auto;
+            background-color: white;
+        }
+    }
 }
