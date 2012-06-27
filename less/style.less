@@ -142,6 +142,13 @@ body {
     position:relative;
 }
 
+.loader {
+display:none;
+position:absolute;
+top: 0px;    
+left:50%;
+}
+
 i.fletxa {
         background-image: url('../img/fletxa_desplega_inactiva.png');
         background-repeat: repeat-none;
@@ -261,14 +268,48 @@ i.fletxa {
     padding-left:50px;
 }
 
+#carouselWrapper {
+    width: 800px;
+    margin: 0 auto;    
+    color:white;
+    font-family: "InterstateRegular", "Verdana";
+    font-weight:normal;
+    font-size: 14px;
 
-#miratgesCarousel {
-    .carousel-inner {
-        .item {
-            width: 800px;
-            height:300px;
-            margin: 0 auto;
-            background-color: white;
+    #miratgesCarousel {
+        .carousel-inner {
+            .item {
+                .title {text-align: center; padding: 30px 0;}
+                .miratge {
+                    width:370px;
+                    float:left;                        
+                    margin-left:20px;
+                    text-align: center;
+                    span {padding: 30px 0;}
+                    img { 
+                        padding-bottom:20px; 
+                        opacity: 0.8;
+                        &:hover {opacity: 1.0;}
+                    }                    
+                }
+
+            }
+        }
+    }
+}
+
+#carouselNavigation {
+    .navitem {
+        float:left;
+        width:200px;
+        margin:75px 0;        
+        margin-left:20px;        
+        img {
+            width:96px;
+            float:left;
+            margin-right:4px;
+            opacity: 0.4;
+            &:hover {opacity: 1.0;}            
         }
     }
 }
