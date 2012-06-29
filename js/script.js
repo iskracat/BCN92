@@ -11,9 +11,13 @@ $(document).ready( function() {
 
     $('.accordion-group').on('click', function(event) {
         event.preventDefault()
+        // Re-set section sizes in order to adapt to header size changes
+        $('.accordion-inner').css({height:getAvailableSize(false)})
 
-        // Save visibility status of the clicked section, toggle it and set classes
         var sectionBody = $(this).find('.accordion-body')
+        var sectionInner = $(sectionBody).find('.accordion-inner')
+
+        // Save visibility status of the clicked section, toggle it and set classes        
         var visible = sectionBody.hasClass('in')
         var currentId = $(this).attr('id')
         var prevId = $(this).prev().attr('id')
@@ -35,7 +39,7 @@ $(document).ready( function() {
                   $.get(content_url, function (data) {
                       // inject only contents inside selector #content
                       filtered = $(data).filter('#content').html()
-                      sectionBody.html(filtered)
+                      sectionInner.html(filtered)
                       loader.hide()
                       __VOBRES.loaded[currentId] = true
                   }, 'html' )
@@ -50,6 +54,7 @@ $(document).ready( function() {
         var sections = $(this).siblings()
         for (i=0;i<sections.length;i++) {
            var sibSectionBody = $(sections[i]).find('.accordion-body')
+           var sibSectionInner = $(sibSectionBody).find('.accordion-inner')
            if (sibSectionBody.hasClass('in')) {
                $(sibSectionBody).collapse('hide') 
                $(sections[i]).toggleClass('visible', false)
@@ -59,6 +64,9 @@ $(document).ready( function() {
                // Show it !!
                var sibId = $(sections[i]).attr('id')
                if (sibId==prevId && visible) {
+                   // Re-set section sizes in order toa dapt to header size changes
+                   $('.accordion-inner').css({height:getAvailableSize(prevId=='home')})
+
                    $(sibSectionBody).collapse('show') 
                    $(sections[i]).toggleClass('visible', true)
 
@@ -73,7 +81,7 @@ $(document).ready( function() {
                             $.get(sectionContent_url, function (data) {
                                 // inject only contents inside selector  #content
                                 filtered = $(data).filter('#content').html()
-                                sibSectionBody.html(filtered)
+                                sibSectionInner.html(filtered)
                                 sectionLoader.hide()
                                 __VOBRES.loaded[sibId] = true
                             }, 'html' )
@@ -104,8 +112,31 @@ $(document).ready( function() {
     __VOBRES = {loaded: {}}
 
 
+
+    // resize active section to remaining viewport size
+    $('.accordion-inner').css({height:getAvailableSize(true)})
+
 }) // End jQuery ready wrapper
 
 
+
+function getAvailableSize(athome) {
+    var total = 0
+    var headers_at_home = 391
+    var headers_at_sections = 216
+
+    // Add the navbar
+    total += $('.navbar').outerHeight()
+    console.log(total)
+    // Add the section headers
+    if (athome) {total += headers_at_home}
+    else {total += headers_at_sections}  
+    
+    // Calculate available size by substracting occuped from viewport size
+    window_height = $(window).height()
+    available = window_height - total
+    console.log(window_height)
+    return available
+}
 
 
