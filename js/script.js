@@ -149,14 +149,16 @@ function loadImpactes() {
         maxcols = Math.floor($('.pagina').width() / 120)
         maxrows = Math.floor($('.pagina').height() / 120)
 
+        //maxcols = 5
+        //maxrows = 6
+
         // Generate tile map and fill with zeroes
         map = []
         for (i=0;i<maxrows;i++) {
             map[i] = []
-            for (h=1;h<maxcols;h++) { map[i].push(0) }
         }
         console.log(map)
-        for (i=0;i<2;i++) {
+        for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
             $('#impactes .pagina').append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="content/impactes/palau/'+impacte.image+'"></div>')
@@ -164,10 +166,14 @@ function loadImpactes() {
     }, 'json')
 }
 
+/* 
+ * Main entrypoint iterated to place each image in the layout
+ */
+
 function getAvailablePos(cls) {
 
     // first of all, search if tile fits in any hole
-    last = searchHoleFor(cls)
+    last = searchLeftMostHoleFor(cls)
     if (last) {
          a = 0
     // it there is no suitable hole, proceed with the base algorithm
@@ -175,10 +181,18 @@ function getAvailablePos(cls) {
         last = getLastPos(cls)  
     }
     
+    // Mark tile's occupied space
     fillLastPos(cls, last)
+
+    // Return position mapped to real spacing
     return {r:last.r*120, c:last.c*120}
     
 }
+
+/*
+ * Tries to place a tile in a new position near the top. This will happen
+ * The first time and every time that there is no hole or trailing space to fill.
+ */
 
 function getLastPos(cls) {
     // search first available col in first row
@@ -191,18 +205,13 @@ function getLastPos(cls) {
         var last = row_cols
     }
 
-    // Look for holes in prev tile
-    if (cls=='rrc') {
-        if (map[row].length > map[row+1].length) {
-            row = row +1
-            last = map[row].length
-        }
-    }
-
-
     return {r:row, c:last}
 }
 
+/* 
+ * Fills one position with a `1`. Takes care to left-zero-padding if a hole
+ * has been created, and also if we are overwriting (filling a hole) or creating
+ */
 
 function fillPos(r, c) {
 
@@ -210,89 +219,125 @@ function fillPos(r, c) {
     if (c<map[r].length) {
         map[r][c] = 1
     } else {
-    // otherwise we are creating a new position
+        // otherwise we are creating a new position, that may create a hole
+        // so we fill zeroes at left
+        while (map[r].length<c)
+            map[r].push(0)
+        //and fill current tile position at last
         map[r].push(1)
     }
 }
+
+/*
+ * Fills with ones all the positions defined by class `cls` starting
+ * at position pos
+ */
 
 function fillLastPos(cls, pos) {
   // Always fill the topleft position
 
   fillPos(pos.r, pos.c, 1)
+  if (cls=='rcc' || cls=='rrcc')  { fillPos(pos.r, pos.c+1, 1) }
+  if (cls=='rrc' || cls =='rrcc') { fillPos(pos.r+1, pos.c, 1) } 
+  if (cls=='rrcc')                { fillPos(pos.r+1, pos.c+1, 1) }
 
-  if (cls=='rcc') {
-      fillPos(pos.r, pos.c+1, 1)
+  alignHoleMarkers()
+}
+
+/*
+ * Iterates through all the occuped positions to pad with
+ * zeroes all unused positions to align with longest row.
+ * This allows to detect `empty` zones as holes and fill them.
+ */
+
+function alignHoleMarkers() {
+
+  // get longest row
+  var longest = 0
+  for (r=0;r<maxrows;r++) {
+      if (map[r].length>longest) longest=map[r].length
   }
 
-  // if is a vertical tile  
-  if (cls=='rrc') {
-      baserow_length = map[pos.r].length
-      belowrow_length = map[pos.r+1].length
 
-      // if lenghts once filled are not equal, it means we are generating a hole in the row below 
-      // So we fill it with zeroes
-      if ( baserow_length > belowrow_length+1) {
-          for (h=1;h<baserow_length-belowrow_length;h++) { map[pos.r+1].push(0)
-      }}
-
-      // once the holes have been filled, push the tile section into its row
-      fillPos(pos.r+1, pos.c, 1)
-  } 
-
-  if (cls=='rrcc') {
-      fillPos(pos.r, pos.c+1, 1)
-      fillPos(pos.r+1, pos.c, 1)
-      fillPos(pos.r+1, pos.c+1, 1)
-    }
+  // fill zeroes to match column count on longest row
+  for (r=0;r<maxrows;r++) {
+      while (map[r].length<longest)
+          map[r].push(0)
+  }
 
 }
 
-function searchHoleFor(cls) {
+/*
+ * Checks if the last found hole at position `pos` is more at left than
+ * the one at `r,c`. Default to true if first or in same column.
+*/
+
+function isLefterThan(pos, r, c) {
+    // it we have a position, test if it's more at the left than r,c
+    if (pos) {
+        if (c<pos.c) {
+            return true
+        } else {
+            return false
+        }
+    // Otherwise if we haven't any, assume it's the firstm --> it's the leftmost
+    } else {
+        return true  
+    }
+}
+
+
+/*
+ *  Looks for any hole that has been left behind, and chooses the one
+ * that is nearest to the 0 column 0
+ */
+
+function searchLeftMostHoleFor(cls) {
     var cont = true
-    var found = false
+    var pos = false
     for (sr=0;sr<maxrows;sr++) {
         var crow = map[sr]
         for (sc=0;sc<crow.length;sc++) {
             if (crow[sc] == 0) {
-              if (tileFits(cls, sr, sc)) {
-                found = true
-                pos = {r:sr, c:sc}
-                break
-              }
+                if (tileFits(cls, sr, sc)) {
+                    if (isLefterThan(pos, sr, sc)) {
+                        pos = {r:sr, c:sc}
+                    }
+                }
             }
         }
     }
 
-    if (found) {
+    if (pos) {
         return pos
     } else {
         return false
     }
 
 }
+
+/*
+ *  Checks whether a certain tile fits in a a hole at point (t,c)
+ *  depending on its class, and without violating boundaries
+ */
     
 function tileFits(cls, r, c) {
-    fits = isAvailable(r,c)
-
-    if (cls=='rrcc' || cls=='rcc') {
-        fits = fits && isAvailable(r,c+1)
-    }
-
-    if (cls=='rrcc' || cls=='rrc') {
-        fits = fits && isAvailable(r+1,c)
-    }
-
-    if (cls=='rrcc') {
-        fits = fits && isAvailable(r+1,c+1)
-    }
+    
+    fits = isAvailable(r,c)                                                   // Check 0,0    
+    if (cls=='rrcc' || cls=='rcc')  { fits = fits && isAvailable(r,c+1) }     // Check 0,1
+    if (cls=='rrcc' || cls=='rrc')  { fits = fits && isAvailable(r+1,c) }     // Check 1,0
+    if (cls=='rrcc')                { fits = fits && isAvailable(r+1,c+1) }   // Check 1,1
 
     return fits
 }
 
+/*
+ *  Checks whether a position in map is available to use
+ */
 
 function isAvailable(r, c) {
 
-    // it point is outside boudaries, it's not valid
+    // if point is outside boudaries, it's not valid
     if (r>=maxrows || c>=maxcols) { return false}
 
     // otherwise, check it its a valid position, either existing
