@@ -217,7 +217,6 @@ i.fletxa {
 }
 
 
-
 .navbar .nav {
         font-family: "InterstateBold", "Verdana";
         font-weight:normal;
@@ -316,5 +315,41 @@ i.fletxa {
             opacity: 0.4;
             &:hover {opacity: 1.0;}            
         }
+    }
+}
+
+
+/*SECTIONS*/
+
+#collapseImpactes {
+    .container {
+        .row {
+            .pagina {
+                margin:0px;
+                border:1px #222 solid;
+                text-align: center;
+                position:relative;
+                height:480px;
+                .impacte {
+                    background-color: @groc;
+                    position:absolute;
+
+                    &.rrcc img { width:230px; height:230px; }
+                    &.rcc img  { width:230px; height:110px; }
+                    &.rrc img  { width:110px; height:230px; }
+                    &.rc img   { width:110px; height:110px; }
+
+
+                    &#i1 {top:0; left:0px;}
+                    &#i2 {top:130px; left:260px;}
+                    &#i3 {top:0px; left:260px;}                    
+                    &#i4 {top:130px; left:390px;}                    
+
+                }
+
+
+            }    
+        }
+        
     }
 }

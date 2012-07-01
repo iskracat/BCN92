@@ -42,6 +42,9 @@ $(document).ready( function() {
                       sectionInner.html(filtered)
                       loader.hide()
                       __VOBRES.loaded[currentId] = true
+                      if (currentId=='impactes') {
+                        loadImpactes()
+                      }
                   }, 'html' )
               }
             })
@@ -127,7 +130,6 @@ function getAvailableSize(athome) {
 
     // Add the navbar
     total += $('.navbar').outerHeight()
-    console.log(total)
     // Add the section headers
     if (athome) {total += headers_at_home}
     else {total += headers_at_sections}  
@@ -135,8 +137,171 @@ function getAvailableSize(athome) {
     // Calculate available size by substracting occuped from viewport size
     window_height = $(window).height()
     available = window_height - total
-    console.log(window_height)
     return available
 }
 
 
+function loadImpactes() {
+    $.get('content/impactes/palau/data.json', function(data) {
+        var available = data
+        var numi = available.length
+        console.log(numi)
+        maxcols = Math.floor($('.pagina').width() / 120)
+        maxrows = Math.floor($('.pagina').height() / 120)
+
+        // Generate tile map and fill with zeroes
+        map = []
+        for (i=0;i<maxrows;i++) {
+            map[i] = []
+            for (h=1;h<maxcols;h++) { map[i].push(0) }
+        }
+        console.log(map)
+        for (i=0;i<2;i++) {
+            var impacte = data[i]
+            var pos = getAvailablePos(impacte.class)
+            $('#impactes .pagina').append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="content/impactes/palau/'+impacte.image+'"></div>')
+        }
+    }, 'json')
+}
+
+function getAvailablePos(cls) {
+
+    // first of all, search if tile fits in any hole
+    last = searchHoleFor(cls)
+    if (last) {
+         a = 0
+    // it there is no suitable hole, proceed with the base algorithm
+    } else {
+        last = getLastPos(cls)  
+    }
+    
+    fillLastPos(cls, last)
+    return {r:last.r*120, c:last.c*120}
+    
+}
+
+function getLastPos(cls) {
+    // search first available col in first row
+    var row = 0
+    var row_cols = map[row].length  
+    if (row_cols==0) {
+        var last = 0
+    }
+    else {
+        var last = row_cols
+    }
+
+    // Look for holes in prev tile
+    if (cls=='rrc') {
+        if (map[row].length > map[row+1].length) {
+            row = row +1
+            last = map[row].length
+        }
+    }
+
+
+    return {r:row, c:last}
+}
+
+
+function fillPos(r, c) {
+
+    // if the position we try to fill doesn't exists, we are filling a hole
+    if (c<map[r].length) {
+        map[r][c] = 1
+    } else {
+    // otherwise we are creating a new position
+        map[r].push(1)
+    }
+}
+
+function fillLastPos(cls, pos) {
+  // Always fill the topleft position
+
+  fillPos(pos.r, pos.c, 1)
+
+  if (cls=='rcc') {
+      fillPos(pos.r, pos.c+1, 1)
+  }
+
+  // if is a vertical tile  
+  if (cls=='rrc') {
+      baserow_length = map[pos.r].length
+      belowrow_length = map[pos.r+1].length
+
+      // if lenghts once filled are not equal, it means we are generating a hole in the row below 
+      // So we fill it with zeroes
+      if ( baserow_length > belowrow_length+1) {
+          for (h=1;h<baserow_length-belowrow_length;h++) { map[pos.r+1].push(0)
+      }}
+
+      // once the holes have been filled, push the tile section into its row
+      fillPos(pos.r+1, pos.c, 1)
+  } 
+
+  if (cls=='rrcc') {
+      fillPos(pos.r, pos.c+1, 1)
+      fillPos(pos.r+1, pos.c, 1)
+      fillPos(pos.r+1, pos.c+1, 1)
+    }
+
+}
+
+function searchHoleFor(cls) {
+    var cont = true
+    var found = false
+    for (sr=0;sr<maxrows;sr++) {
+        var crow = map[sr]
+        for (sc=0;sc<crow.length;sc++) {
+            if (crow[sc] == 0) {
+              if (tileFits(cls, sr, sc)) {
+                found = true
+                pos = {r:sr, c:sc}
+                break
+              }
+            }
+        }
+    }
+
+    if (found) {
+        return pos
+    } else {
+        return false
+    }
+
+}
+    
+function tileFits(cls, r, c) {
+    fits = isAvailable(r,c)
+
+    if (cls=='rrcc' || cls=='rcc') {
+        fits = fits && isAvailable(r,c+1)
+    }
+
+    if (cls=='rrcc' || cls=='rrc') {
+        fits = fits && isAvailable(r+1,c)
+    }
+
+    if (cls=='rrcc') {
+        fits = fits && isAvailable(r+1,c+1)
+    }
+
+    return fits
+}
+
+
+function isAvailable(r, c) {
+
+    // it point is outside boudaries, it's not valid
+    if (r>=maxrows || c>=maxcols) { return false}
+
+    // otherwise, check it its a valid position, either existing
+    // which can be a available if it's a hole (0) or already filled (1)
+    if (c<map[r].length) {
+        return map[r][c] == 0
+    // if it's a non-existing position whithin boudaries, is valid
+    } else {
+        return true
+    }
+
+}
