@@ -324,12 +324,21 @@ i.fletxa {
 #collapseImpactes {
     .container {
         .row {
+            margin: 0px;
+
+            .capcalera {
+                margin:0px;
+                border:1px #222 solid;
+                text-align: center;
+                height:60px;                
+                margin-bottom:20px;
+            }
             .pagina {
                 margin:0px;
                 border:1px #222 solid;
                 text-align: center;
                 position:relative;
-                height:480px;
+                height:600px;
                 .impacte {
                     background-color: @groc;
                     position:absolute;
@@ -341,16 +350,48 @@ i.fletxa {
                     &.rrc img  { width:110px; height:230px; }
                     &.rc img   { width:110px; height:110px; }
 
-
-                    &#i1 {top:0; left:0px;}
-                    &#i2 {top:130px; left:260px;}
-                    &#i3 {top:0px; left:260px;}                    
-                    &#i4 {top:130px; left:390px;}                    
-
                 }
 
 
             }    
+
+            &#menu {
+
+                .capcalera {
+                    height:30px;
+                }
+
+                .mapa {
+                    background-image:url(../img/fons_mapa_1170.jpg);    
+                    background-repeat:no-repeat;
+                    background-position: left top;
+                    height:960px;
+                    position:relative;
+
+                    .pin {
+                        background-image:url(../img/punt_localitzacio.png);
+                        width:34px;
+                        height:43px;
+                        position:absolute;
+
+                        &#p1  {top:52%; left:38%;} // Anella olímpica
+                        &#p2  {top:49%; left:36%;}
+                        &#p3  {top:49%; left:38%;}
+                        &#p4  {top:52%; left:36%;}
+                        &#p5  {top:55%; left:56%;} // Vila olímpica
+                        &#p6  {top:56%; left:65%;} // Front marítim
+                        &#p7  {top:18%; left:46%;} // Torre Collserola
+                        &#p8  {top:21%; left:59%;} // Vall Hebron
+                        &#p9  {top:50%; left:50%;}
+                        &#p10 {top:50%; left:50%;}
+                        &#p11 {top:50%; left:50%;}
+                    }
+
+
+                }
+
+                
+            }
         }
         
     }

@@ -9,23 +9,26 @@ $(document).ready( function() {
 
     // Accordion fold/unfold behaviour
 
-    $('.accordion-group').on('click', function(event) {
+    $('.accordion-heading').on('click', function(event) {
         event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
         // Re-set section sizes in order to adapt to header size changes
         $('.accordion-inner').css({height:getAvailableSize(false)})
 
-        var sectionBody = $(this).find('.accordion-body')
+        var sectionGroup = $(this).closest('.accordion-group') 
+        var sectionBody = $(sectionGroup).find('.accordion-body')
         var sectionInner = $(sectionBody).find('.accordion-inner')
 
         // Save visibility status of the clicked section, toggle it and set classes        
         var visible = sectionBody.hasClass('in')
-        var currentId = $(this).attr('id')
-        var prevId = $(this).prev().attr('id')
+        var currentId = $(sectionGroup).attr('id')
+        var prevId = $(sectionGroup).prev().attr('id')
         sectionBody.collapse('toggle')
-        $(this).toggleClass('visible')
+        $(sectionGroup).toggleClass('visible')
 
-        var content_url = $(this).find('.accordion-toggle').attr('href')
-        var loader = $(this).find('.loader')
+        var content_url = $(sectionGroup).find('.accordion-toggle').attr('href')
+        var loader = $(sectionGroup).find('.loader')
 
         // only if we are about to show the clicked section
         if (!visible) {
@@ -43,7 +46,7 @@ $(document).ready( function() {
                       loader.hide()
                       __VOBRES.loaded[currentId] = true
                       if (currentId=='impactes') {
-                        loadImpactes()
+                        loadImpactesMenu()
                       }
                   }, 'html' )
               }
@@ -54,7 +57,7 @@ $(document).ready( function() {
 
 
         // If we were hidden, hide all visible sections but current
-        var sections = $(this).siblings()
+        var sections = $(sectionGroup).siblings()
         for (i=0;i<sections.length;i++) {
            var sibSectionBody = $(sections[i]).find('.accordion-body')
            var sibSectionInner = $(sibSectionBody).find('.accordion-inner')
@@ -112,12 +115,20 @@ $(document).ready( function() {
         $('#miratgesCarousel').carousel(number)
     })
 
+    $('#collapseImpactes').on('click', '.pin',  function(event) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+        page = $(this).find('a').attr('href')
+        loadImpactesPage(page)
+    })
+
     __VOBRES = {loaded: {}}
-
-
 
     // resize active section to remaining viewport size
     $('.accordion-inner').css({height:getAvailableSize(true)})
+
+
 
 }) // End jQuery ready wrapper
 
@@ -141,13 +152,20 @@ function getAvailableSize(athome) {
 }
 
 
-function loadImpactes() {
-    $.get('content/impactes/palau/data.json', function(data) {
+function loadImpactesMenu() {
+     $.get('content/impactes/index.html', function(data) {
+
+     })
+
+}
+
+function loadImpactesPage(page) {
+    $.get('content/impactes/'+page+'/data.json', function(data) {
         var available = data
         var numi = available.length
-        console.log(numi)
-        maxcols = Math.floor($('.pagina').width() / 120)
-        maxrows = Math.floor($('.pagina').height() / 120)
+        var pagina = $('#impactes #'+page+' .pagina')
+        maxcols = Math.floor(pagina.width() / 120)
+        maxrows = Math.floor(pagina.height() / 120)
 
         //maxcols = 5
         //maxrows = 6
@@ -157,11 +175,10 @@ function loadImpactes() {
         for (i=0;i<maxrows;i++) {
             map[i] = []
         }
-        console.log(map)
         for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
-            $('#impactes .pagina').append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="content/impactes/palau/'+impacte.image+'"></div>')
+            pagina.append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="content/impactes/palau/'+impacte.image+'"></div>')
         }
     }, 'json')
 }
