@@ -25,7 +25,10 @@ body {
 body {
     background-color: @fonsseccio;
     font-weight:normal;
-    padding-bottom: 0px
+    padding-bottom: 0px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+
 }
 
 html {overflow:hidden;}
@@ -192,11 +195,16 @@ i.fletxa {
 }
 
 
+#impactesnav {
+ display:none;
+}
+
 .accordion-group.visible {
     .accordion-heading {
         background-image: none;
         background-repeat: none;
         border-bottom:none;
+        position:relative;
         h2 {
             float:left;
             font-size:50px;
@@ -211,7 +219,53 @@ i.fletxa {
         }
     }
 
-    &#impactes { h3 { margin-left:220px; width:165px; } }
+    &#impactes { h3 { margin-left:220px; width:165px; }
+                 background-image: url(../img/fons_mapa_1170.jpg);
+                 background-position: center center;
+                 background-repeat: no-repeat;          
+                 background-size: 100%;
+
+                .pin {
+                    background-image:url(../img/punt_localitzacio.png);
+                    width:34px;
+                    height:43px;
+                    position:absolute;
+                }
+
+                #impactesnav {
+                    display:block;
+                    position:absolute;
+                    top:20px;
+                    left:35%;
+                    height:40px;
+                    border-left:1px solid @grisclar;
+                    border-right:1px solid @grisclar;
+                    padding-right:20px;
+                    padding-left:20px;
+                    .back span{ background-image: url(../img/fletxa_esquerra.png );
+                                background-repeat: no-repeat;
+                                background-position: 0px 3px;
+                                padding:11px;
+
+                              }
+                    .forward span{ background-image: url(../img/fletxa_dreta.png);
+                                background-repeat: no-repeat;
+                                background-position: 0px 3px;
+                                padding:11px;
+
+                              }
+                    .mapa span{ background-image: url(../img/boto_mapa.png);
+                                background-repeat: no-repeat;
+                                background-position: 20px 7px;
+                                padding:17px 80px 7px 1px;
+                                margin-left:17px;
+                                border-left:1px solid @grisclar;
+
+                              }
+
+
+                }
+               } 
     &#miratges { h3 { margin-left:220px; width:150px; } }
     &#testimonis { h3 { margin-left:260px; width:180px; } }
 }
@@ -322,6 +376,7 @@ i.fletxa {
 /*SECTIONS*/
 
 #collapseImpactes {
+    position:relative;
     .container {
         .row {
             margin: 0px;
@@ -368,24 +423,7 @@ i.fletxa {
                     height:960px;
                     position:relative;
 
-                    .pin {
-                        background-image:url(../img/punt_localitzacio.png);
-                        width:34px;
-                        height:43px;
-                        position:absolute;
 
-                        &#p1  {top:52%; left:38%;} // Anella olímpica
-                        &#p2  {top:49%; left:36%;}
-                        &#p3  {top:49%; left:38%;}
-                        &#p4  {top:52%; left:36%;}
-                        &#p5  {top:55%; left:56%;} // Vila olímpica
-                        &#p6  {top:56%; left:65%;} // Front marítim
-                        &#p7  {top:18%; left:46%;} // Torre Collserola
-                        &#p8  {top:21%; left:59%;} // Vall Hebron
-                        &#p9  {top:50%; left:50%;}
-                        &#p10 {top:50%; left:50%;}
-                        &#p11 {top:50%; left:50%;}
-                    }
 
 
                 }

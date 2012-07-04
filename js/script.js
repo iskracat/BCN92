@@ -46,6 +46,7 @@ $(document).ready( function() {
                       loader.hide()
                       __VOBRES.loaded[currentId] = true
                       if (currentId=='impactes') {
+                        setTimeout(recalculatePinPositions, 500)
                         loadImpactesMenu()
                       }
                   }, 'html' )
@@ -123,7 +124,28 @@ $(document).ready( function() {
         loadImpactesPage(page)
     })
 
-    __VOBRES = {loaded: {}}
+    $(window).resize(function () {
+        athome = $('#accordion2').hasClass('athome')
+        $('.accordion-inner').css({height:getAvailableSize(athome)})
+        recalculatePinPositions()
+
+    })
+
+    __VOBRES = {loaded: {},
+                pins :{ p1:  {w:553, h:203},       // Torre de collserola
+                        p2:  {w:621, h:277},       // Segon cinturó                  
+                        p3:  {w:372, h:547},       // Ronda Litoral 
+                        p4:  {w:426, h:498},       // Anella 1
+                        p5:  {w:453, h:502},       // Anella 2
+                        p6:  {w:435, h:529},       // Anella 3
+                        p7:  {w:469, h:522},       // Anella 4
+                        p8:  {w:584, h:553},       // Port ?
+                        p9:  {w:652, h:575},       // Vila olímpica 
+                        p10: {w:669, h:542},       // Vila olímpica 
+                        p11: {w:690, h:560},       // Vila olímpica 
+                        p12: {w:768, h:574},       // Front marítim
+                      }
+               }
 
     // resize active section to remaining viewport size
     $('.accordion-inner').css({height:getAvailableSize(true)})
@@ -132,6 +154,47 @@ $(document).ready( function() {
 
 }) // End jQuery ready wrapper
 
+
+function recalculatePinPositions() {
+    recalculatePinPosition('p1')
+    recalculatePinPosition('p2')
+    recalculatePinPosition('p3')
+    recalculatePinPosition('p4')
+    recalculatePinPosition('p5')
+    recalculatePinPosition('p6')
+    recalculatePinPosition('p7')
+    recalculatePinPosition('p8')
+    recalculatePinPosition('p9')
+    recalculatePinPosition('p10')
+    recalculatePinPosition('p11')
+    recalculatePinPosition('p12')
+}
+
+function recalculatePinPosition(pin) {
+    var section = { w:$('#impactes').width(),
+                    h:$('#impactes').height() }
+    var image = { w:1170, h:796 }
+
+    // calculate the real height of the image as if not were
+    // overflowed by section size constrains, based on the proportion
+    // of the original image size
+    var real_section_height = section.w / (image.w / image.h) 
+
+    // calculate the amount of pixels hidden in each side of the image (top & bottom)
+    var overflowed_image_size_margin = ( real_section_height - section.h ) / 2 
+
+    // positions relative to top-left of entire image,
+    // calculated as if the image was entirely visible
+    // subsctract margin from height to take the overflowed part of the image into account
+    var w = Math.floor((__VOBRES.pins[pin].w * section.w) / image.w)
+    var h = Math.floor((__VOBRES.pins[pin].h * real_section_height) / image.h - overflowed_image_size_margin)
+
+
+    // reposition pin counting with pin size
+    $('#'+pin).css({top:h+43, left:w-17})
+
+
+}
 
 
 function getAvailableSize(athome) {
