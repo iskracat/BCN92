@@ -33,6 +33,10 @@ body {
 
 html {overflow:hidden;}
 
+.popover {
+  z-index:2001;
+}
+
 .container.main {
     width:auto;
     margin-top:18px;
@@ -99,6 +103,7 @@ html {overflow:hidden;}
     margin-bottom:0px;
     background-color:@fonsseccio;
     .accordion-heading {
+        position:relative;
         background-image: url('../img/textura_fons_titols.gif');
         background-repeat: repeat;
         padding:8px 30px 5px 20px;
@@ -119,7 +124,6 @@ html {overflow:hidden;}
             color:white;
             font-size:30px;
             line-height:30px;
-            padding-bottom:20px;
             display:none;
         }
 
@@ -133,10 +137,13 @@ html {overflow:hidden;}
     &#impactes {
         .accordion-heading {
             border-top:1px solid @grismig;
+            height:50px;
         }
     }
 }
 
+
+.athome #impactes .accordion-heading {height:96px;}
 
 .accordion-inner {
     border:none;
@@ -165,7 +172,7 @@ i.fletxa {
         display:block;
         float:right;
         position:absolute;
-        top:5px;
+        top:12px;
         right:20px;
         &:hover {
             background-image: url('../img/fletxa_desplega_activa.png');
@@ -195,11 +202,12 @@ i.fletxa {
 }
 
 
-#impactesnav {
+.fadepanel {
  display:none;
 }
 
 .accordion-group.visible {
+    position:relative;
     .accordion-heading {
         background-image: none;
         background-repeat: none;
@@ -219,52 +227,74 @@ i.fletxa {
         }
     }
 
-    &#impactes { h3 { margin-left:220px; width:165px; }
-                 background-image: url(../img/fons_mapa_1170.jpg);
-                 background-position: center center;
-                 background-repeat: no-repeat;          
-                 background-size: 100%;
+    &#impactes { h3 { margin-left:220px; width:165px; height:66px; }
 
-                .pin {
-                    background-image:url(../img/punt_localitzacio.png);
-                    width:34px;
-                    height:43px;
-                    position:absolute;
-                }
+        .accordion-toggle {
+            float:left;
+        }
+                 
+         .fadepanel {
+         display:block;
+         position:absolute;                    
+         width:100%;
+         height:100%;
+         opacity:1;                 
+         }
 
-                #impactesnav {
-                    display:block;
-                    position:absolute;
-                    top:20px;
-                    left:35%;
-                    height:40px;
-                    border-left:1px solid @grisclar;
-                    border-right:1px solid @grisclar;
-                    padding-right:20px;
-                    padding-left:20px;
-                    .back span{ background-image: url(../img/fletxa_esquerra.png );
+        #map {
+         background-image: url(../img/fons_mapa_1170.jpg);
+         background-position: center center;
+         background-repeat: no-repeat;          
+         background-size: 100%;                    
+          -webkit-transition-property: opacity;
+          -webkit-transition-duration: 1s;
+          -webkit-transition-timing-function: ease-in-out;  
+
+         &.dissolve { opacity: 0;  
+                      -webkit-transition-property: opacity;
+                      -webkit-transition-duration: 1s;
+                      -webkit-transition-timing-function: ease-in-out;  }
+        }
+
+        .pin {
+            background-image:url(../img/punt_localitzacio.png);
+            width:28px;
+            height:39px;
+            position:absolute;
+            z-index:2000;
+            cursor:pointer;
+        }
+
+                    
+                    .back{ background-image: url(../img/fletxa_esquerra_inactiu.png );
                                 background-repeat: no-repeat;
-                                background-position: 0px 3px;
-                                padding:11px;
-
-                              }
-                    .forward span{ background-image: url(../img/fletxa_dreta.png);
-                                background-repeat: no-repeat;
-                                background-position: 0px 3px;
-                                padding:11px;
-
-                              }
-                    .mapa span{ background-image: url(../img/boto_mapa.png);
-                                background-repeat: no-repeat;
-                                background-position: 20px 7px;
-                                padding:17px 80px 7px 1px;
-                                margin-left:17px;
+                                background-position: 20px center;
+                                display:block; float:left; padding: 0px;
+                                width:45px; height:38px;
+                                margin:15px 0px 0px 15px;
                                 border-left:1px solid @grisclar;
-
+                                &.active    { background-image: url(../img/fletxa_esquerra.png); }
                               }
-
-
-                }
+                    .forward{ background-image: url(../img/fletxa_dreta_inactiu.png);
+                                background-repeat: no-repeat;
+                                background-position: 10px center;
+                                display:block; float:left; padding: 0px;
+                                width:55px; height:38px;
+                                margin:15px 0px 0px 0px;
+                                border-right:1px solid @grisclar;
+                                &.active { background-image: url(../img/fletxa_dreta.png); }                        
+                              }
+                    .mapa{ background-image: url(../img/boto_mapa_inactiu.png);
+                                background-repeat: no-repeat;
+                                background-position: 15px center;
+                                border-right:1px solid @grisclar;
+                                display:block;
+                                float:left;                                
+                                width:108px; height:38px;
+                                margin:15px 0px 0px 0px;
+                                &.active    { background-image: url(../img/boto_mapa.png); }                                
+                              }
+                       
                } 
     &#miratges { h3 { margin-left:220px; width:150px; } }
     &#testimonis { h3 { margin-left:260px; width:180px; } }
@@ -376,6 +406,23 @@ i.fletxa {
 /*SECTIONS*/
 
 #collapseImpactes {
+    float:none;
+    clear:both;
+    .container#bigone {
+        opacity: 1;
+        margin-top:10px;
+        -webkit-transition-property: opacity;
+        -webkit-transition-duration: 1s;
+        -webkit-transition-timing-function: ease-in-out;              
+        
+        &.dissolve { opacity: 0;  
+          -webkit-transition-property: opacity;
+          -webkit-transition-duration: 1s;
+          -webkit-transition-timing-function: ease-in-out;  }
+    }
+        
+
+
     position:relative;
     .container {
         .row {
@@ -391,9 +438,9 @@ i.fletxa {
             .pagina {
                 margin:0px;
                 border:1px #222 solid;
+                background-color:#222;
                 text-align: center;
                 position:relative;
-                height:600px;
                 .impacte {
                     background-color: @groc;
                     position:absolute;

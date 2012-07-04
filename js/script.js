@@ -13,8 +13,6 @@ $(document).ready( function() {
         event.preventDefault()
         event.stopPropagation()
         event.stopImmediatePropagation()
-        // Re-set section sizes in order to adapt to header size changes
-        $('.accordion-inner').css({height:getAvailableSize(false)})
 
         var sectionGroup = $(this).closest('.accordion-group') 
         var sectionBody = $(sectionGroup).find('.accordion-body')
@@ -24,6 +22,10 @@ $(document).ready( function() {
         var visible = sectionBody.hasClass('in')
         var currentId = $(sectionGroup).attr('id')
         var prevId = $(sectionGroup).prev().attr('id')
+
+        // Re-set section sizes in order to adapt to header size changes
+        $('.accordion-inner').css({height:getAvailableSize(false, currentId=='impactes')})
+
         sectionBody.collapse('toggle')
         $(sectionGroup).toggleClass('visible')
 
@@ -47,7 +49,6 @@ $(document).ready( function() {
                       __VOBRES.loaded[currentId] = true
                       if (currentId=='impactes') {
                         setTimeout(recalculatePinPositions, 500)
-                        loadImpactesMenu()
                       }
                   }, 'html' )
               }
@@ -72,7 +73,7 @@ $(document).ready( function() {
                var sibId = $(sections[i]).attr('id')
                if (sibId==prevId && visible) {
                    // Re-set section sizes in order toa dapt to header size changes
-                   $('.accordion-inner').css({height:getAvailableSize(prevId=='home')})
+                   $('.accordion-inner').css({height:getAvailableSize(prevId=='home', prevId=='impactes')})
 
                    $(sibSectionBody).collapse('show') 
                    $(sections[i]).toggleClass('visible', true)
@@ -116,39 +117,134 @@ $(document).ready( function() {
         $('#miratgesCarousel').carousel(number)
     })
 
-    $('#collapseImpactes').on('click', '.pin',  function(event) {
+    // Navigate to next impacte
+    $('#impactesnav .forward').on('click', function() {
         event.preventDefault()
         event.stopPropagation()
         event.stopImmediatePropagation()
-        page = $(this).find('a').attr('href')
+
+        atcarousel = $('#map').hasClass('dissolve')
+
+        // If we are viewing the map, hide it and load the first item of the carousel
+        // Carousel will be at index 0, either beacause it's the first time, or 
+        // beacause we returned to map, which resets position
+        if (!atcarousel) {
+            $('#bigone').toggleClass('dissolve', false)        
+            $('#map').toggleClass('dissolve', true)
+            $('#impactesnav .mapa').toggleClass('active', true)            
+            loadImpactesPage('estadi')
+        }
+        // Otherwise, we are at the carousel, slide to next
+        else {
+            // Search the active carousel item
+            position = $('#impactesCarousel .active.item').index()
+            // if we are not in the last item
+            if (position < 11) {
+                // get the page name and load it, then position carousel
+                page = $($('#impactesCarousel .item').get(position+1)).attr('id')
+                loadImpactesPage(page)
+                $('#impactesCarousel').carousel(position+1)
+            }
+            $('#impactesnav .back').toggleClass('active', position+1>0)
+            $('#impactesnav .forward').toggleClass('active', position+1<11)
+        }
+    })
+
+
+
+    // Navigate to previous impacte
+    $('#impactesnav .back').on('click', function() {
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+
+        // Search the active carousel item
+        position = $('#impactesCarousel .active.item').index()
+        // if we are not in the last item
+        if (position > 0 ) {
+            // get the page name and load it, then position carousel
+            page = $($('#impactesCarousel .item').get(position-1)).attr('id')
+            loadImpactesPage(page)
+            $('#impactesCarousel').carousel(position-1)
+        }
+        $('#impactesnav .back').toggleClass('active', position-1>0)
+        $('#impactesnav .forward').toggleClass('active', position-1<11)
+
+    })
+
+    // Navigate to main map
+    $('#impactesnav .mapa').on('click', function() {
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+
+        $(this).toggleClass('active', false)
+        $('#impactesnav .back').toggleClass('active', false)
+        $('#impactesnav .forward').toggleClass('active', true)        
+        $('#bigone').toggleClass('dissolve', true)        
+        $('#map').toggleClass('dissolve', false)
+        setTimeout(function() {$('#impactesCarousel').carousel(0)}, 1000)
+        $('#impactes .accordion-toggle h3').text('Les petjades de la transformació')
+
+
+    })
+
+
+
+    // Go to impacte
+    $('#map').on('click', '.pin',  function(event) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+        var page = $(this).find('a').attr('href')
+        var position = $(this).index()        
+        $('#impactesCarousel').carousel(position)
+        setTimeout(function () {
+        $('#impactesnav .back').toggleClass('active', position>0)
+        $('#impactesnav .forward').toggleClass('active', position<11)
+        $('#impactesnav .mapa').toggleClass('active', true)
+        $('#map').toggleClass('dissolve', true)
+        $('#bigone').toggleClass('dissolve', false)        
         loadImpactesPage(page)
+        }, 200)
     })
 
     $(window).resize(function () {
-        athome = $('#accordion2').hasClass('athome')
-        $('.accordion-inner').css({height:getAvailableSize(athome)})
+        var athome = $('#accordion2').hasClass('athome')
+        var atimpactes = $('#impactes').hasClass('visible')
+        $('.accordion-inner').css({height:getAvailableSize(athome, atimpactes)})
         recalculatePinPositions()
 
     })
 
     __VOBRES = {loaded: {},
-                pins :{ p1:  {w:553, h:203},       // Torre de collserola
-                        p2:  {w:621, h:277},       // Segon cinturó                  
-                        p3:  {w:372, h:547},       // Ronda Litoral 
-                        p4:  {w:426, h:498},       // Anella 1
-                        p5:  {w:453, h:502},       // Anella 2
-                        p6:  {w:435, h:529},       // Anella 3
-                        p7:  {w:469, h:522},       // Anella 4
-                        p8:  {w:584, h:553},       // Port ?
-                        p9:  {w:652, h:575},       // Vila olímpica 
-                        p10: {w:669, h:542},       // Vila olímpica 
-                        p11: {w:690, h:560},       // Vila olímpica 
-                        p12: {w:768, h:574},       // Front marítim
+                pins :{ estadi:      {w:466, h:534, pop:'right',  title:'Estadi olímpic'},                    
+                        palau:       {w:437, h:532, pop:'bottom', title:'Palau Sant Jordi'},
+                        picornell:   {w:457, h:502, pop:'top',    title:'Piscines Picornell'},
+                        calatrava:   {w:426, h:495, pop:'left',   title:'Torre Calatrava'},
+                        ronda:       {w:372, h:547, pop:'left',   title:'Ronda Litoral'},
+                        platges:     {w:768, h:574, pop:'right',  title:'Platjes de Barcelona'},
+                        portolimpic: {w:652, h:575, pop:'left',   title:'Port olímpic'},
+                        portvell:    {w:584, h:553, pop:'top',    title:'Port Vell'},
+                        torres:      {w:669, h:542, pop:'top',    title:'Torres mapfre'},
+                        vila:        {w:690, h:560, pop:'right',  title:'Vila olímpica'},
+                        cinturo:     {w:621, h:277, pop:'left',   title:'Segon cinturó'},
+                        collserola:  {w:553, h:203, pop:'bottom', title:'Torre de collserola'},
                       }
                }
 
+    // instantiate pin popovers
+    var pinnames = ['estadi','palau' ,'picornell' ,'calatrava' ,'ronda' ,'platges' ,'portolimpic' ,'portvell' ,'torres' ,'vila' ,'cinturo' ,'collserola']
+    for (p=0;p<pinnames.length;p++) {
+        var pin = pinnames[p]
+        var options = {     title: __VOBRES.pins[pin]['title'],
+                        placement: __VOBRES.pins[pin]['pop']
+                       }
+        $('.pin#'+pin).popover(options)
+    }
+
     // resize active section to remaining viewport size
-    $('.accordion-inner').css({height:getAvailableSize(true)})
+    $('.accordion-inner').css({height:getAvailableSize(true, false)})
 
 
 
@@ -156,23 +252,16 @@ $(document).ready( function() {
 
 
 function recalculatePinPositions() {
-    recalculatePinPosition('p1')
-    recalculatePinPosition('p2')
-    recalculatePinPosition('p3')
-    recalculatePinPosition('p4')
-    recalculatePinPosition('p5')
-    recalculatePinPosition('p6')
-    recalculatePinPosition('p7')
-    recalculatePinPosition('p8')
-    recalculatePinPosition('p9')
-    recalculatePinPosition('p10')
-    recalculatePinPosition('p11')
-    recalculatePinPosition('p12')
+    var pins = $('#map .pin')
+    for (p=0;p<pins.length;p++) {
+        recalculatePinPosition($(pins[p]).attr('id'))    
+    }
+    
 }
 
 function recalculatePinPosition(pin) {
-    var section = { w:$('#impactes').width(),
-                    h:$('#impactes').height() }
+    var section = { w:$('#impactes #map').width(),
+                    h:$('#impactes #map').height() }
     var image = { w:1170, h:796 }
 
     // calculate the real height of the image as if not were
@@ -191,22 +280,28 @@ function recalculatePinPosition(pin) {
 
 
     // reposition pin counting with pin size
-    $('#'+pin).css({top:h+43, left:w-17})
+    //$('#'+pin).css({top:h, left:w})
+    $('#'+pin+'.pin').css({top:h-36, left:w-14})
 
 
 }
 
 
-function getAvailableSize(athome) {
+
+function getAvailableSize(athome, atimpactes) {
     var total = 0
-    var headers_at_home = 391
-    var headers_at_sections = 216
+    var headers_at_home = 333
+    var headers_at_sections = 202
+
+    //216
 
     // Add the navbar
     total += $('.navbar').outerHeight()
     // Add the section headers
     if (athome) {total += headers_at_home}
-    else {total += headers_at_sections}  
+    else  {total += headers_at_sections}  
+
+    if (atimpactes) {total += 14}
     
     // Calculate available size by substracting occuped from viewport size
     window_height = $(window).height()
@@ -215,20 +310,16 @@ function getAvailableSize(athome) {
 }
 
 
-function loadImpactesMenu() {
-     $.get('content/impactes/index.html', function(data) {
-
-     })
-
-}
-
 function loadImpactesPage(page) {
     $.get('content/impactes/'+page+'/data.json', function(data) {
         var available = data
         var numi = available.length
-        var pagina = $('#impactes #'+page+' .pagina')
-        maxcols = Math.floor(pagina.width() / 120)
-        maxrows = Math.floor(pagina.height() / 120)
+        var container = $('#impactes .carousel-inner')
+        var pagesize = getAvailableSize(false,true)-30
+        var pagina = $(container).find('#'+page+' .pagina')
+        pagina.css({height:pagesize})
+        maxcols = Math.floor(container.width() / 120)
+        maxrows = Math.floor(pagesize / 120)
 
         //maxcols = 5
         //maxrows = 6
@@ -241,9 +332,10 @@ function loadImpactesPage(page) {
         for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
-            pagina.append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="content/impactes/palau/'+impacte.image+'"></div>')
+            pagina.append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="content/impactes/'+page+'/'+impacte.image+'"></div>')
         }
     }, 'json')
+    $('#impactes .accordion-toggle h3').text(__VOBRES.pins[page]['title'])
 }
 
 /* 
