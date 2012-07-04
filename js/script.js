@@ -335,8 +335,22 @@ function loadImpactesPage(page) {
         for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
-            pagina.append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="'+impacte.thumb+'"><i class="emblem '+impacte.type+'"></i></div>')
+            if (impacte.type=='single') pagina.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a href="'+impacte.image+'" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='video') pagina.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="http://youtu.be/QFAAI0NZz-w" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='serie') {
+                var serielinks = ''
+                for (l=1;l<impacte.items.length;l++) {
+                    serielinks += '<a data-fancybox-group="'+impacte.id+'" href="'+impacte.items[l].image+'" title="'+impacte.items[l].footer+'"></a>'
+                }
+
+                pagina.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a data-fancybox-group="'+impacte.id+'" href="'+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
+            }  
         }
+
+       $("#"+page+" .impacte.single a").fancybox({ helpers : { title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
+       $("#"+page+" .impacte.video a").fancybox({ helpers : { media: {}, title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
+       $("#"+page+" .impacte.serie a").fancybox({ prevEffect: 'elastic', nextEffect: 'elastic', helpers : { thumbs: { width: 50, height:50}, title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
+
     }, 'json')
     $('#impactes .accordion-toggle h3').text(__VOBRES.pins[page]['title'])
 }

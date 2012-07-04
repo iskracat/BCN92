@@ -70,6 +70,7 @@ for sheet in wb.sheets():
                     items.append({'thumb': thumbfilename,
                                   'class': getImageClass(thumbfilename),
                                   'type': 'serie',
+                                  'id': '%s_ser_%d' % (folder, seriecount),
                                   'items': [{'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie)]
                                   })
                     serie = []
