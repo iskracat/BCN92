@@ -335,7 +335,7 @@ function loadImpactesPage(page) {
         for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
-            pagina.append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="'+impacte.thumb+'"></div>')
+            pagina.append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="'+impacte.thumb+'"><i class="emblem '+impacte.type+'"></i></div>')
         }
     }, 'json')
     $('#impactes .accordion-toggle h3').text(__VOBRES.pins[page]['title'])
