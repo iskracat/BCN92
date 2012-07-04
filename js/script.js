@@ -48,7 +48,7 @@ $(document).ready( function() {
                       loader.hide()
                       __VOBRES.loaded[currentId] = true
                       if (currentId=='impactes') {
-                        setTimeout(recalculatePinPositions, 500)
+                        setTimeout(recalculatePinPositions, 300)
                       }
                   }, 'html' )
               }
@@ -92,6 +92,9 @@ $(document).ready( function() {
                                 sibSectionInner.html(filtered)
                                 sectionLoader.hide()
                                 __VOBRES.loaded[sibId] = true
+                                if (prevId=='impactes') {
+                                  setTimeout(recalculatePinPositions, 300)
+                                }                                
                             }, 'html' )
                        }
                    // make sure loader gets hidden
@@ -332,7 +335,7 @@ function loadImpactesPage(page) {
         for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
-            pagina.append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="content/impactes/'+page+'/'+impacte.image+'"></div>')
+            pagina.append('<div class="impacte '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><img src="'+impacte.thumb+'"></div>')
         }
     }, 'json')
     $('#impactes .accordion-toggle h3').text(__VOBRES.pins[page]['title'])

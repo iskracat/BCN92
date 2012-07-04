@@ -442,10 +442,14 @@ i.fletxa {
                 text-align: center;
                 position:relative;
                 .impacte {
-                    background-color: @groc;
+                    background-color: transparent;
                     position:absolute;
 
-                    img { max-width: none;}
+                    img { max-width: none;
+                         -webkit-border-radius: 5px;
+                         -moz-border-radius: 5px;
+                         border-radius: 5px;
+                    }
 
                     &.rrcc img { width:230px; height:230px; }
                     &.rcc img  { width:230px; height:110px; }
