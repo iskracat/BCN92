@@ -120,6 +120,7 @@ h2:focus {
         background-repeat: repeat;
         padding:8px 30px 12px 60px;
         border-bottom:1px solid @grismig;
+        z-index:10000;
 
         a {text-decoration:none;}
         h2 {
@@ -264,11 +265,22 @@ i.fletxa {
           -webkit-transition-property: opacity;
           -webkit-transition-duration: 1s;
           -webkit-transition-timing-function: ease-in-out;  
+          
+          -moz-transition-property: opacity;
+          -moz-transition-duration: 1s;
+          -moz-transition-timing-function: ease-in-out;              
+
 
          &.dissolve { opacity: 0;  
                       -webkit-transition-property: opacity;
                       -webkit-transition-duration: 1s;
-                      -webkit-transition-timing-function: ease-in-out;  }
+                      -webkit-transition-timing-function: ease-in-out;  
+
+                      -moz-transition-property: opacity;
+                      -moz-transition-duration: 1s;
+                      -moz-transition-timing-function: ease-in-out;              
+
+                     }
         }
 
         .pin {
@@ -314,7 +326,7 @@ i.fletxa {
     &#miratges { h3 { margin-left:220px; width:150px; } }
     &#testimonis { h3 { margin-left:260px; width:180px; } }
 }
-
+.navbar-fixed-top {z-index:10001;}
 
 .navbar .nav {
         font-family: "InterstateRegular", "Verdana";
@@ -432,11 +444,22 @@ i.fletxa {
         -webkit-transition-property: opacity;
         -webkit-transition-duration: 1s;
         -webkit-transition-timing-function: ease-in-out;              
+
+        -moz-transition-property: opacity;
+        -moz-transition-duration: 1s;
+        -moz-transition-timing-function: ease-in-out;              
+
         
         &.dissolve { opacity: 0;  
           -webkit-transition-property: opacity;
           -webkit-transition-duration: 1s;
-          -webkit-transition-timing-function: ease-in-out;  }
+          -webkit-transition-timing-function: ease-in-out;  
+
+          -moz-transition-property: opacity;
+          -moz-transition-duration: 1s;
+          -moz-transition-timing-function: ease-in-out;              
+
+        }
     }
         
 
