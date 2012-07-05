@@ -34,7 +34,7 @@ $(document).ready( function() {
 
         // only if we are about to show the clicked section
         if (!visible) {
-            loader.show(0, function() {
+            loader.show(0, function(event) {
               // if it's already loaded just hide the loading indicator
               if (__VOBRES.loaded[currentId]) {
                   console.log('already loaded')
@@ -82,7 +82,7 @@ $(document).ready( function() {
                    // (same as before with a diferent target section)
                    var sectionLoader = $(sections[i]).find('.loader')
                    var sectionContent_url = $(sections[i]).find('.accordion-toggle').attr('href')
-                   sectionLoader.show(0, function() {
+                   sectionLoader.show(0, function(event) {
                        if (__VOBRES.loaded[sibId]) {
                             sectionLoader.hide()
                        } else {
@@ -293,8 +293,8 @@ function recalculatePinPosition(pin) {
 
 function getAvailableSize(athome, atimpactes) {
     var total = 0
-    var headers_at_home = 333
-    var headers_at_sections = 202
+    var headers_at_home = 262
+    var headers_at_sections = 170
 
     //216
 
@@ -304,7 +304,7 @@ function getAvailableSize(athome, atimpactes) {
     if (athome) {total += headers_at_home}
     else  {total += headers_at_sections}  
 
-    if (atimpactes) {total += 14}
+    if (atimpactes) {total += 13}
     
     // Calculate available size by substracting occuped from viewport size
     window_height = $(window).height()

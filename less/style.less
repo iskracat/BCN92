@@ -17,10 +17,10 @@ body {
 @groc2: #FECD02;
 @grisclar: #AAAAAA;
 @gris34: #454545;
-@grismig: #303030;
+@grismig: #333;
 @grisfosc: #151515;
 @fonsseccio: #1D1B1C;
-@padding-main: 80px 30px 0px 30px;
+@padding-main: 63px 30px 0px 59px;
 
 body {
     background-color: @fonsseccio;
@@ -32,6 +32,14 @@ body {
 }
 
 html {overflow:hidden;}
+
+a:focus { 
+    outline: none; 
+}
+
+h2:focus {
+ outline: none;  
+}
 
 .popover {
   z-index:2001;
@@ -52,30 +60,34 @@ html {overflow:hidden;}
   background-image: url('../img/fons_portada.jpg');
   background-repeat: no-repeat;
   background-position: left bottom;
-  color:@grisfosc;
+  color:@grismig;
   height:auto;
     h1 {
          font-family: "InterstateLightCondensed", "Verdana";
          font-weight:normal;
-         width:30px;
-         line-height:80px;
-         font-size: 100px;
+         width:600px;
+         line-height:58px;
+         font-size: 90px;
          strong {
            font-family: "InterstateBlackCondensed", "Verdana";
            font-weight:normal;
-           font-size: 100px;
+           font-size: 90px;
+           display:block;
+           width:300px;
+           line-height:73px;
          }
        }
-    p {
-         font-family: "InterstateBold", "Verdana";
-         font-weight:normal;
-         width: 50%;
-         font-size:18px;
-         line-height:18px;
-         margin-top:20px;
-         margin-bottom:120px;
-         letter-spacing:0.9px;
-    }
+   .accordion-inner {
+       position:relative;    
+       object {
+        border:20px solid black;
+           position:absolute; 
+           top:50px;
+           right:50px;
+           z-index:0;
+       }
+
+   }    
    .padder {
       padding: @padding-main;
    }
@@ -106,7 +118,7 @@ html {overflow:hidden;}
         position:relative;
         background-image: url('../img/textura_fons_titols.gif');
         background-repeat: repeat;
-        padding:8px 30px 5px 20px;
+        padding:8px 30px 12px 60px;
         border-bottom:1px solid @grismig;
 
         a {text-decoration:none;}
@@ -122,8 +134,8 @@ html {overflow:hidden;}
             font-family: "InterstateRegular", "Verdana";
             font-weight:normal;
             color:white;
-            font-size:30px;
-            line-height:30px;
+            font-size:20px;
+            line-height:20px;
             display:none;
         }
 
@@ -137,13 +149,13 @@ html {overflow:hidden;}
     &#impactes {
         .accordion-heading {
             border-top:1px solid @grismig;
-            height:50px;
+            height:29px;
         }
     }
 }
 
 
-.athome #impactes .accordion-heading {height:96px;}
+.athome #impactes .accordion-heading {height:64px;}
 
 .accordion-inner {
     border:none;
@@ -152,9 +164,11 @@ html {overflow:hidden;}
 }
 
 
-
-.accordion-toggle {
-    position:relative;
+.accordion-heading {
+    .accordion-toggle {
+        position:relative;
+        padding:0;
+    }
 }
 
 .loader {
@@ -172,7 +186,7 @@ i.fletxa {
         display:block;
         float:right;
         position:absolute;
-        top:12px;
+        top:9px;
         right:20px;
         &:hover {
             background-image: url('../img/fletxa_desplega_activa.png');
@@ -180,6 +194,7 @@ i.fletxa {
 }
 
 .visible i.fletxa {
+        top:15px;
         background-image: url('../img/fletxa_plega_inactiva.png');
         &:hover {
             background-image: url('../img/fletxa_plega_activa.png');
@@ -191,8 +206,8 @@ i.fletxa {
 #accordion2.athome {
     .accordion-heading {
         h2 {
-            font-size:50px;
-            line-height:50px;
+            font-size:45px;
+            line-height:45px;
         }
         h3 {
             display:block;
@@ -215,8 +230,8 @@ i.fletxa {
         position:relative;
         h2 {
             float:left;
-            font-size:50px;
-            line-height:50px;
+            font-size:45px;
+            line-height:45px;
 
         }
 
@@ -227,7 +242,7 @@ i.fletxa {
         }
     }
 
-    &#impactes { h3 { margin-left:220px; width:165px; height:66px; }
+    &#impactes { h3 { margin-left:220px; width:250px; height:66px; }
 
         .accordion-toggle {
             float:left;
@@ -271,7 +286,7 @@ i.fletxa {
                                 background-position: 20px center;
                                 display:block; float:left; padding: 0px;
                                 width:45px; height:38px;
-                                margin:15px 0px 0px 15px;
+                                margin:5px 0px 0px 15px;
                                 border-left:1px solid @grisclar;
                                 &.active    { background-image: url(../img/fletxa_esquerra.png); }
                               }
@@ -280,7 +295,7 @@ i.fletxa {
                                 background-position: 10px center;
                                 display:block; float:left; padding: 0px;
                                 width:55px; height:38px;
-                                margin:15px 0px 0px 0px;
+                                margin:5px 0px 0px 0px;
                                 border-right:1px solid @grisclar;
                                 &.active { background-image: url(../img/fletxa_dreta.png); }                        
                               }
@@ -291,7 +306,7 @@ i.fletxa {
                                 display:block;
                                 float:left;                                
                                 width:108px; height:38px;
-                                margin:15px 0px 0px 0px;
+                                margin:5px 0px 0px 0px;
                                 &.active    { background-image: url(../img/boto_mapa.png); }                                
                               }
                        
@@ -302,9 +317,12 @@ i.fletxa {
 
 
 .navbar .nav {
-        font-family: "InterstateBold", "Verdana";
+        font-family: "InterstateRegular", "Verdana";
         font-weight:normal;
 
+        strong {
+            font-family: "InterstateBold", "Verdana";
+        }
         li a{
             color:@grisclar;
             font-size:12px;
@@ -313,10 +331,10 @@ i.fletxa {
         }
 
         li.active a{
-            padding-top:10px;
-            color:@groc;
-            font-size:24px;
-            line-height:24px;
+            padding-top:20px;
+            color:@groc2;
+            font-size:20px;
+            line-height:8px;
             background-color:transparent;
             &:hover{
                 background-color:transparent;
@@ -438,7 +456,6 @@ i.fletxa {
             .pagina {
                 margin:0px;
                 border:1px #222 solid;
-                background-color:#222;
                 text-align: center;
                 position:relative;
                 .impacte {
