@@ -4,10 +4,10 @@
 
 @font-face {
     font-family: 'InterstateBlack';
-    src: url('interstate-black-webfont.eot');
-    src: url('interstate-black-webfont.eot?#iefix') format('embedded-opentype'),
-         url('interstate-black-webfont.woff') format('woff'),
-         url('interstate-black-webfont.ttf') format('truetype');
+    src: url('interstate-black.eot');
+    src: url('interstate-black.eot?#iefix') format('embedded-opentype'),
+         url('interstate-black.woff') format('woff'),
+         url('interstate-black.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
@@ -18,10 +18,10 @@
 
 @font-face {
     font-family: 'InterstateBlackCondensed';
-    src: url('interstate-blackcondensed-webfont.eot');
-    src: url('interstate-blackcondensed-webfont.eot?#iefix') format('embedded-opentype'),
-         url('interstate-blackcondensed-webfont.woff') format('woff'),
-         url('interstate-blackcondensed-webfont.ttf') format('truetype');
+    src: url('interstate-blackcondensed.eot');
+    src: url('interstate-blackcondensed.eot?#iefix') format('embedded-opentype'),
+         url('interstate-blackcondensed.woff') format('woff'),
+         url('interstate-blackcondensed.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
@@ -32,10 +32,10 @@
 
 @font-face {
     font-family: 'InterstateBold';
-    src: url('interstate-bold-webfont.eot');
-    src: url('interstate-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('interstate-bold-webfont.woff') format('woff'),
-         url('interstate-bold-webfont.ttf') format('truetype');
+    src: url('interstate-bold.eot');
+    src: url('interstate-bold.eot?#iefix') format('embedded-opentype'),
+         url('interstate-bold.woff') format('woff'),
+         url('interstate-bold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
@@ -46,10 +46,10 @@
 
 @font-face {
     font-family: 'InterstateBoldCondensed';
-    src: url('interstate-boldcondensed-webfont.eot');
-    src: url('interstate-boldcondensed-webfont.eot?#iefix') format('embedded-opentype'),
-         url('interstate-boldcondensed-webfont.woff') format('woff'),
-         url('interstate-boldcondensed-webfont.ttf') format('truetype');
+    src: url('interstate-boldcondensed.eot');
+    src: url('interstate-boldcondensed.eot?#iefix') format('embedded-opentype'),
+         url('interstate-boldcondensed.woff') format('woff'),
+         url('interstate-boldcondensed.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
@@ -60,10 +60,10 @@
 
 @font-face {
     font-family: 'InterstateLightCondensed';
-    src: url('interstate-light-cond-webfont.eot');
-    src: url('interstate-light-cond-webfont.eot?#iefix') format('embedded-opentype'),
-         url('interstate-light-cond-webfont.woff') format('woff'),
-         url('interstate-light-cond-webfont.ttf') format('truetype');
+    src: url('interstate-light-cond.eot');
+    src: url('interstate-light-cond.eot?#iefix') format('embedded-opentype'),
+         url('interstate-light-cond.woff') format('woff'),
+         url('interstate-light-cond.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
@@ -74,10 +74,10 @@
 
 @font-face {
     font-family: 'InterstateRegular';
-    src: url('interstate-regular-webfont.eot');
-    src: url('interstate-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('interstate-regular-webfont.woff') format('woff'),
-         url('interstate-regular-webfont.ttf') format('truetype');
+    src: url('Interstate-Regular.eot');
+    src: url('Interstate-Regular.eot?#iefix') format('embedded-opentype'),
+         url('Interstate-Regular.woff') format('woff'),
+         url('Interstate-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 
