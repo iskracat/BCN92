@@ -9,7 +9,7 @@ $(document).ready( function() {
 
     // Accordion fold/unfold behaviour
 
-    $('#accordion2').on('show', function(event) {
+    $('#accordion2').on('shown', function(event) {
         var $sectionBody = $(event.target)
         var $sectionGroup = $sectionBody.closest('.accordion-group')
         var sectionInner = $sectionBody.find('.accordion-inner')
@@ -46,7 +46,7 @@ $(document).ready( function() {
         loader.hide(0)                                                            
     })
 
-    $('#accordion2').on('hide', function(event) {
+    $('#accordion2').on('hidden', function(event) {
         var $sectionBody = $(event.target)
         var $sectionGroup = $sectionBody.closest('.accordion-group')
         var currentId = $sectionGroup.attr('id')
@@ -60,7 +60,6 @@ $(document).ready( function() {
 
 
     $('.accordion-heading').on('click', function(event) {
-        console.log(event)
         event.preventDefault()
         event.stopPropagation()
         event.stopImmediatePropagation()
@@ -293,7 +292,9 @@ function getAvailableSize(athome, atimpactes) {
     // Calculate available size by substracting occuped from viewport size
     window_height = $(window).height()
     available = window_height - total
+    console.log(available)    
     return available
+
 }
 
 
