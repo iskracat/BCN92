@@ -44,6 +44,11 @@ $(document).ready( function() {
           }                                                                
         }) 
         loader.hide(0)                                                            
+
+        // Hide impactes if shown home and impactes visible
+        if (currentId=='home') {
+            $('#impactes .collapse').collapse('hide')
+        }
     })
 
     $('#accordion2').on('hidden', function(event) {
