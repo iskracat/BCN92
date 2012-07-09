@@ -58,6 +58,7 @@ $(document).ready( function() {
             $('#map').toggleClass('dissolve', false)
             $('#impactesCarousel').carousel(0)
             $('#impactes .accordion-toggle h3').text('Les petjades de la transformació')
+            $('#videoportada').show()
 
             
         }
@@ -72,6 +73,8 @@ $(document).ready( function() {
         //Set marker class "athome", to show that home become visible
         var homevisible = $('#home').hasClass('visible')
         $('#accordion2').toggleClass('athome', homevisible)
+
+        if (currentId==='home') $('#videoportada').hide()
 
     })
 
@@ -212,6 +215,40 @@ $(document).ready( function() {
         }, 200)
     })
 
+
+    $('#impactes').on('click', '.goleft', function(event) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+
+        var $pagina = $(this).next()
+        var $wrapper = $pagina.find('.wrapper')
+        var maxcols = $pagina.get(0).maxcols
+        var visiblecols = Math.floor($pagina.width() / 110)
+        var currentscrollpos = (Math.floor(parseInt($wrapper.css('margin-left')) / 110) * -1)
+        if (currentscrollpos > 0) currentscrollpos -=1
+        var prevpos = currentscrollpos - 1
+        if (prevpos>=0) $wrapper.animate({'margin-left':prevpos * -120 }, 200)
+        
+    })
+
+    $('#impactes').on('click', '.goright', function(event) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+
+        var $pagina = $(this).prev()
+        var $wrapper = $pagina.find('.wrapper')
+        var maxcols = $pagina.get(0).maxcols
+        var visiblecols = Math.floor($pagina.width() / 110)
+        var currentscrollpos = (Math.floor(parseInt($wrapper.css('margin-left')) / 110) * -1)
+        if (currentscrollpos > 0) currentscrollpos -=1
+        var nextpos = currentscrollpos + 1
+        if (nextpos<=maxcols-visiblecols) $wrapper.animate({'margin-left':nextpos * -120 }, 200)
+        
+    })
+
+
     $(window).resize(function () {
         var athome = $('#accordion2').hasClass('athome')
         var atimpactes = $('#impactes').hasClass('visible')
@@ -318,11 +355,17 @@ function loadImpactesPage(page) {
     $.get('content/impactes/'+page+'/data.json', function(data) {
         var available = data
         var numi = available.length
-        var container = $('#impactes .carousel-inner')
+        var $container = $('#impactes .carousel-inner')
         var pagesize = getAvailableSize(false,true)-30
-        var pagina = $(container).find('#'+page+' .pagina')
-        pagina.css({height:pagesize})
-        maxcols = Math.floor(container.width() / 120)
+        var $pagina = $container.find('#'+page+' .pagina')
+        var $wrapper = $pagina.find('.wrapper')
+        var $goleft = $container.find('#'+page+' .goleft')
+        var $goright = $container.find('#'+page+' .goright')
+        $pagina.css({height:pagesize})
+        $goleft.css({height:pagesize})
+        $goright.css({height:pagesize})
+        
+        //maxcols = Math.floor(container.width() / 120)
         maxrows = Math.floor(pagesize / 120)
 
         //maxcols = 5
@@ -336,21 +379,29 @@ function loadImpactesPage(page) {
         for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
-            if (impacte.type=='single') pagina.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a href="'+impacte.image+'" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
-            if (impacte.type=='video') pagina.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="http://youtu.be/QFAAI0NZz-w" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='single') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a href="'+impacte.image+'" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='video') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="http://youtu.be/QFAAI0NZz-w" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
             if (impacte.type=='serie') {
                 var serielinks = ''
                 for (l=1;l<impacte.items.length;l++) {
                     serielinks += '<a data-fancybox-group="'+impacte.id+'" href="'+impacte.items[l].image+'" title="'+impacte.items[l].footer+'"></a>'
                 }
 
-                pagina.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a data-fancybox-group="'+impacte.id+'" href="'+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
+                $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a data-fancybox-group="'+impacte.id+'" href="'+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
             }  
         }
 
-       $("#"+page+" .impacte.single a").fancybox({ helpers : { title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
-       $("#"+page+" .impacte.video a").fancybox({ helpers : { media: {}, title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
-       $("#"+page+" .impacte.serie a").fancybox({ prevEffect: 'elastic', nextEffect: 'elastic', helpers : { thumbs: { width: 50, height:50}, title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
+        var visiblecols = Math.floor($pagina.width() / 110)
+        var maxcols = getLongestRow()
+        $pagina.get(0).maxcols = maxcols
+        if (maxcols<=visiblecols) {
+            $goleft.hide()
+            $goright.hide()
+        }
+
+        $("#"+page+" .impacte.single a").fancybox({ helpers : { title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
+        $("#"+page+" .impacte.video a").fancybox({ helpers : { media: {}, title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
+        $("#"+page+" .impacte.serie a").fancybox({ prevEffect: 'elastic', nextEffect: 'elastic', helpers : { thumbs: { width: 50, height:50}, title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
 
     }, 'json')
     $('#impactes .accordion-toggle h3').text(__VOBRES.pins[page]['title'])
@@ -443,11 +494,7 @@ function fillLastPos(cls, pos) {
 function alignHoleMarkers() {
 
   // get longest row
-  var longest = 0
-  for (r=0;r<maxrows;r++) {
-      if (map[r].length>longest) longest=map[r].length
-  }
-
+  var longest = getLongestRow()
 
   // fill zeroes to match column count on longest row
   for (r=0;r<maxrows;r++) {
@@ -455,6 +502,21 @@ function alignHoleMarkers() {
           map[r].push(0)
   }
 
+}
+
+
+/*
+ * Finds the longest filled row
+ */
+
+function getLongestRow() {
+
+  // get longest row
+  var longest = 0
+  for (r=0;r<maxrows;r++) {
+      if (map[r].length>longest) longest=map[r].length
+  }
+  return longest
 }
 
 /*
@@ -528,7 +590,7 @@ function tileFits(cls, r, c) {
 function isAvailable(r, c) {
 
     // if point is outside boudaries, it's not valid
-    if (r>=maxrows || c>=maxcols) { return false}
+    if (r>=maxrows ) { return false}
 
     // otherwise, check it its a valid position, either existing
     // which can be a available if it's a hole (0) or already filled (1)

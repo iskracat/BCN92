@@ -22,6 +22,16 @@ body {
 @fonsseccio: #1D1B1C;
 @padding-main: 63px 30px 0px 59px;
 
+::-moz-selection {
+    color:black;
+}
+::-webkit-selection {
+    color:black;
+}
+::selection{
+    color:black;
+}
+
 body {
     background-color: @fonsseccio;
     font-weight:normal;
@@ -356,7 +366,7 @@ i.fletxa {
      font-weight:normal;
      font-size: 12px;
 
-     height:30px;
+     height:32px;
      border-bottom: 1px solid @gris34;
      position: relative;
      width: 100%;
@@ -458,19 +468,26 @@ i.fletxa {
     .container {
         .row {
             margin: 0px;
-
-            .capcalera {
-                margin:0px;
-                border:1px #222 solid;
-                text-align: center;
-                height:60px;                
-                margin-bottom:20px;
+            .goleft {
+              background-image: url(../img/fletxa_esquerra_central_inactiu.png);
+              background-repeat: no-repeat;
+              background-position: center center;
+              cursor:pointer;
+              &:hover {background-image: url(../img/fletxa_esquerra_central.png);}
             }
+            .goright {
+              background-image: url(../img/fletxa_dreta_central_inactiu.png);
+              background-repeat: no-repeat;
+              background-position: center center;              
+              cursor:pointer;
+              &:hover {background-image: url(../img/fletxa_dreta_central.png);}
+            }            
             .pagina {
-                margin:0px;
-                border:1px #222 solid;
+                overflow: hidden;              
                 text-align: center;
-                position:relative;
+                .wrapper {
+                    position:relative;
+                }
                 .impacte {
                     background-color: transparent;
                     position:absolute;
@@ -531,4 +548,14 @@ i.fletxa {
 
 @media screen and (min-width : 1170px) {
     .accordion-group.visible#impactes #map { background-image: url(../img/fons_mapa_1920.jpg); }
+}
+
+
+#impactes .container {width:1010px;}
+#impactes .span10 {width:830px;}
+
+@media screen and (min-width: 1200px) {
+  #impactes .container {width:1200px;}
+  #impactes .span10 {width:950px;}
+  
 }
