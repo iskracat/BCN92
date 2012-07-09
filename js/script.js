@@ -57,7 +57,8 @@ $(document).ready( function() {
             $('#bigone').toggleClass('dissolve', true)        
             $('#map').toggleClass('dissolve', false)
             $('#impactesCarousel').carousel(0)
-            $('#impactes .accordion-toggle h3').text('Les petjades de la transformació')
+            $('#impactes .accordion-toggle h3.main').text('Les petjades de la transformació')
+            $('#impactes .accordion-toggle h3.sub').text('')
             $('#videoportada').show()
 
             
@@ -191,6 +192,7 @@ $(document).ready( function() {
         $('#map').toggleClass('dissolve', false)
         setTimeout(function() {$('#impactesCarousel').carousel(0)}, 1000)
         $('#impactes .accordion-toggle h3').text('Les petjades de la transformació')
+        $('#impactes .accordion-toggle h3.sub').text('')
 
 
     })
@@ -258,18 +260,18 @@ $(document).ready( function() {
     })
 
     __VOBRES = {loaded: {},
-                pins :{ estadi:      {w:466, h:534, pop:'right',  title:'Estadi olímpic'},                    
-                        palau:       {w:437, h:532, pop:'bottom', title:'Palau Sant Jordi'},
-                        picornell:   {w:457, h:502, pop:'top',    title:'Piscines Picornell'},
-                        calatrava:   {w:426, h:495, pop:'left',   title:'Torre Calatrava'},
-                        ronda:       {w:372, h:547, pop:'left',   title:'Ronda Litoral'},
-                        platges:     {w:768, h:574, pop:'right',  title:'Platjes de Barcelona'},
-                        portolimpic: {w:652, h:575, pop:'left',   title:'Port olímpic'},
-                        portvell:    {w:584, h:553, pop:'top',    title:'Port Vell'},
-                        torres:      {w:669, h:542, pop:'top',    title:'Torres mapfre'},
-                        vila:        {w:690, h:560, pop:'right',  title:'Vila olímpica'},
-                        cinturo:     {w:621, h:277, pop:'left',   title:'Segon cinturó'},
-                        collserola:  {w:553, h:203, pop:'bottom', title:'Torre de collserola'},
+                pins :{ estadi:      {w:466, h:534, pop:'right',  title:'Estadi olímpic',       zone:'ANELLA OLÍMPICA'},
+                        palau:       {w:437, h:532, pop:'bottom', title:'Palau Sant Jordi',     zone:'ANELLA OLÍMPICA'},
+                        picornell:   {w:457, h:502, pop:'top',    title:'Piscines Picornell',   zone:'ANELLA OLÍMPICA'},
+                        calatrava:   {w:426, h:495, pop:'left',   title:'Torre Calatrava',      zone:'ANELLA OLÍMPICA'},
+                        ronda:       {w:372, h:547, pop:'left',   title:'Ronda Litoral',        zone:'RONDES'},
+                        platges:     {w:768, h:574, pop:'right',  title:'Platjes de Barcelona', zone:'FRONT MARÍTIM'},
+                        portolimpic: {w:652, h:575, pop:'left',   title:'Port olímpic',         zone:'FRONT MARÍTIM'},
+                        portvell:    {w:584, h:553, pop:'top',    title:'Port Vell',            zone:'FRONT MARÍTIM'},
+                        torres:      {w:669, h:542, pop:'top',    title:'Torres mapfre',        zone:'FRONT MARÍTIM'},
+                        vila:        {w:690, h:560, pop:'right',  title:'Vila olímpica',        zone:'VILA OLÍMPICA'},
+                        cinturo:     {w:621, h:277, pop:'left',   title:'Segon cinturó',        zone:'RONDES'},
+                        collserola:  {w:553, h:203, pop:'bottom', title:'Torre de collserola',  zone:'TORRE DE COLLSEROLA'}
                       }
                }
 
@@ -277,7 +279,7 @@ $(document).ready( function() {
     var pinnames = ['estadi','palau' ,'picornell' ,'calatrava' ,'ronda' ,'platges' ,'portolimpic' ,'portvell' ,'torres' ,'vila' ,'cinturo' ,'collserola']
     for (p=0;p<pinnames.length;p++) {
         var pin = pinnames[p]
-        var options = {     title: __VOBRES.pins[pin]['title'],
+        var options = {     title: __VOBRES.pins[pin]['zone']+'<br/>'+__VOBRES.pins[pin]['title'],
                         placement: __VOBRES.pins[pin]['pop']
                        }
         $('.pin#'+pin).popover(options)
@@ -341,7 +343,7 @@ function getAvailableSize(athome, atimpactes) {
     if (athome) {total += headers_at_home}
     else  {total += headers_at_sections}  
 
-    if (atimpactes) {total += 17}
+    if (atimpactes) {total += 37}
     
     // Calculate available size by substracting occuped from viewport size
     var window_height = $(window).height()
@@ -404,7 +406,8 @@ function loadImpactesPage(page) {
         $("#"+page+" .impacte.serie a").fancybox({ prevEffect: 'elastic', nextEffect: 'elastic', helpers : { thumbs: { width: 50, height:50}, title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
 
     }, 'json')
-    $('#impactes .accordion-toggle h3').text(__VOBRES.pins[page]['title'])
+    $('#impactes .accordion-toggle h3.main').text(__VOBRES.pins[page]['zone'])
+    $('#impactes .accordion-toggle h3.sub').text(__VOBRES.pins[page]['title'])
 }
 
 /* 
