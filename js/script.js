@@ -14,12 +14,13 @@ $(document).ready( function() {
         var $sectionGroup = $sectionBody.closest('.accordion-group')
         var sectionInner = $sectionBody.find('.accordion-inner')
         var currentId = $sectionGroup.attr('id')
-        $sectionGroup.toggleClass('visible', true)
-        $('.accordion-inner').css({height:getAvailableSize(false, currentId=='impactes')})
 
         //Set marker class "athome", to show that home become visible
-        var homevisible = $('#home').hasClass('visible')
+        var homevisible = currentId==='home'
         $('#accordion2').toggleClass('athome', homevisible)
+        $sectionGroup.toggleClass('visible', true)
+        $('.accordion-inner').css({height:getAvailableSize(homevisible, currentId=='impactes')})
+
 
         var content_url = $sectionGroup.find('.accordion-toggle').attr('href')
         var loader = $sectionGroup.find('.loader')
@@ -46,8 +47,19 @@ $(document).ready( function() {
         loader.hide(0)                                                            
 
         // Hide impactes if shown home and impactes visible
+        // and reset changes to show home as first time
         if (currentId=='home') {
             $('#impactes .collapse').collapse('hide')
+            $(this).toggleClass('active', false)
+            $('#impactesnav .back').toggleClass('active', false)
+            $('#impactesnav .forward').toggleClass('active', true)        
+            $('#impactesnav .mapa').toggleClass('active', false)        
+            $('#bigone').toggleClass('dissolve', true)        
+            $('#map').toggleClass('dissolve', false)
+            $('#impactesCarousel').carousel(0)
+            $('#impactes .accordion-toggle h3').text('Les petjades de la transformació')
+
+            
         }
     })
 
@@ -295,9 +307,8 @@ function getAvailableSize(athome, atimpactes) {
     if (atimpactes) {total += 17}
     
     // Calculate available size by substracting occuped from viewport size
-    window_height = $(window).height()
-    available = window_height - total
-    console.log(available)    
+    var window_height = $(window).height()
+    var available = window_height - total
     return available
 
 }
