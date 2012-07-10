@@ -5,112 +5,132 @@
 */
 
 
+function doActionsForHide($sectionGroup) {
+    
+    var currentId = $sectionGroup.attr('id')
+
+    if (currentId === 'home') {
+        $('#videoportada').hide()    
+    }
+}
+
+
+function doActionsForShow($sectionGroup) {
+
+    var currentId = $sectionGroup.attr('id')
+
+    if (currentId === 'home') {
+        $('#impactesnav .back').toggleClass('active', false)
+        $('#impactesnav .forward').toggleClass('active', true)        
+        $('#impactesnav .mapa').toggleClass('active', false)        
+        $('#bigone').toggleClass('dissolve', true)        
+        $('#map').toggleClass('dissolve', false)
+        $('#impactesCarousel').carousel(0)
+        $('#impactes .accordion-toggle h3.main').text('Les petjades de la transformació')
+        $('#impactes .accordion-toggle h3.sub').text('')
+        $('#videoportada').show()    
+    }
+}
+
+
+function hideSection($sectionGroup) {
+
+    var $sectionBody = $sectionGroup.find('.accordion-body')
+
+    doActionsForHide($sectionGroup)
+
+    $sectionBody.animate({height: 0}, function() {
+        $sectionGroup.toggleClass('visible', false)
+    })
+}
+
+
+function showSection($sectionGroup) {
+    
+    var $sectionBody = $sectionGroup.find('.accordion-body')
+    var $sectionInner = $sectionBody.find('.accordion-inner')
+    var currentId = $sectionGroup.attr('id')
+    var size = getAvailableSize(currentId)
+
+    $sectionBody.animate({height: size})
+    $sectionGroup.toggleClass('visible', true)
+    
+
+    //$('.accordion-inner').css({height:getAvailableSize(currentId)})
+    var homevisible = currentId === 'home'
+    $('#accordion2').toggleClass('athome', homevisible)
+
+
+    // Load content
+    if (__VOBRES.loaded[currentId]) {                                                                
+          console.log('already loaded')                                                                
+          doActionsForShow($sectionGroup)
+      // otherwise load and parse the content and set a loaded mark on this section                                                                
+      } else {                                                             
+          var content_url = $sectionGroup.find('.accordion-toggle').attr('href')
+          $.get(content_url, function (data) {                                                             
+              // inject only contents inside selector #content                                                             
+              filtered = $(data).filter('#content').html()                                                             
+              $sectionInner.html(filtered)                                                              
+              __VOBRES.loaded[currentId] = true                                                                
+              if (currentId==='impactes') {                                                             
+                setTimeout(recalculatePinPositions, 300)                                                               
+              }                          
+              doActionsForShow($sectionGroup)                                      
+          }, 'html' )                                                              
+      }
+
+
+
+
+}
+
 $(document).ready( function() {
 
     // Accordion fold/unfold behaviour
-
-    $('#accordion2').on('shown', function(event) {
-        var $sectionBody = $(event.target)
-        var $sectionGroup = $sectionBody.closest('.accordion-group')
-        var sectionInner = $sectionBody.find('.accordion-inner')
-        var currentId = $sectionGroup.attr('id')
-
-        //Set marker class "athome", to show that home become visible
-        var homevisible = currentId==='home'
-        $('#accordion2').toggleClass('athome', homevisible)
-        $sectionGroup.toggleClass('visible', true)
-        $('.accordion-inner').css({height:getAvailableSize(homevisible, currentId=='impactes')})
-
-
-        var content_url = $sectionGroup.find('.accordion-toggle').attr('href')
-        var loader = $sectionGroup.find('.loader')
-
-        loader.show(0, function(event) {                                                               
-          // if it's already loaded just hide the loading indicator                                                                
-          if (__VOBRES.loaded[currentId]) {                                                                
-              console.log('already loaded')                                                                
-              loader.hide()                                                                
-          // otherwise load and parse the content and set a loaded mark on this section                                                                
-          } else {                                                             
-              $.get(content_url, function (data) {                                                             
-                  // inject only contents inside selector #content                                                             
-                  filtered = $(data).filter('#content').html()                                                             
-                  sectionInner.html(filtered)                                                              
-                  loader.hide()                                                                
-                  __VOBRES.loaded[currentId] = true                                                                
-                  if (currentId=='impactes') {                                                             
-                    setTimeout(recalculatePinPositions, 300)                                                               
-                  }                                                                
-              }, 'html' )                                                              
-          }                                                                
-        }) 
-        loader.hide(0)                                                            
-
-        // Hide impactes if shown home and impactes visible
-        // and reset changes to show home as first time
-        if (currentId=='home') {
-            $('#impactes .collapse').collapse('hide')
-            $(this).toggleClass('active', false)
-            $('#impactesnav .back').toggleClass('active', false)
-            $('#impactesnav .forward').toggleClass('active', true)        
-            $('#impactesnav .mapa').toggleClass('active', false)        
-            $('#bigone').toggleClass('dissolve', true)        
-            $('#map').toggleClass('dissolve', false)
-            $('#impactesCarousel').carousel(0)
-            $('#impactes .accordion-toggle h3.main').text('Les petjades de la transformació')
-            $('#impactes .accordion-toggle h3.sub').text('')
-            $('#videoportada').show()
-
-            
-        }
-    })
-
-    $('#accordion2').on('hidden', function(event) {
-        var $sectionBody = $(event.target)
-        var $sectionGroup = $sectionBody.closest('.accordion-group')
-        var currentId = $sectionGroup.attr('id')
-        $sectionGroup.toggleClass('visible', false)
-
-        //Set marker class "athome", to show that home become visible
-        var homevisible = $('#home').hasClass('visible')
-        $('#accordion2').toggleClass('athome', homevisible)
-
-        if (currentId==='home') $('#videoportada').hide()
-
-    })
-
-
     $('.accordion-heading').on('click', function(event) {
+
         event.preventDefault()
         event.stopPropagation()
         event.stopImmediatePropagation()
 
-        var sectionGroup = $(this).closest('.accordion-group') 
-        var sectionBody = $(sectionGroup).find('.accordion-body')
+        var $sectionGroup = $(this).closest('.accordion-group') 
+        var $sectionBody = $sectionGroup.find('.accordion-body')
 
-        // Save visibility status of the clicked section, toggle it and set classes        
-        var visible = sectionBody.hasClass('in')
-        var currentId = $(sectionGroup).attr('id')
-        var prevId = $(sectionGroup).prev().attr('id')
+        var visible = $sectionGroup.hasClass('visible')
 
-        sectionBody.collapse('toggle')
+        if (visible) {
 
-        // If we were hidden, hide all visible sections but current
-        var sections = $(sectionGroup).siblings()
-        for (i=0;i<sections.length;i++) {
-           var sibSectionBody = $(sections[i]).find('.accordion-body')
-           var sibSectionInner = $(sibSectionBody).find('.accordion-inner')
-           if (sibSectionBody.hasClass('in')) {
-               $(sibSectionBody).collapse('hide') 
-           } else {
-               // if section is hidden, clicked section was hidden, 
-               // and we are looking at the clicked section's prev section,
-               // Show it !!
-               var sibId = $(sections[i]).attr('id')
-               if (sibId==prevId && visible) {
-                   $(sibSectionBody).collapse('show') 
-               }
-           }
+            var $nextVisibleSectionGroup = $sectionGroup.prev()
+
+            hideSection($sectionGroup)
+            showSection($nextVisibleSectionGroup)
+
+        } else {
+            var $currentVisibleGroup = $('.visible')
+
+            hideSection($currentVisibleGroup)
+            showSection($sectionGroup)
+        }
+
+    })
+
+
+    $('#homelink').on('click', function(event){
+
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+
+        var $home = $('#home')
+        var visible = $home.hasClass('visible')
+
+        if (!visible) {
+
+            var $currentVisibleGroup = $('.visible')
+
+            hideSection($currentVisibleGroup)
+            showSection($home)
         }
     })
 
@@ -252,14 +272,17 @@ $(document).ready( function() {
 
 
     $(window).resize(function () {
-        var athome = $('#accordion2').hasClass('athome')
-        var atimpactes = $('#impactes').hasClass('visible')
+        var current
+        $('#accordion2').hasClass('athome')
+            ? current = 'home'
+            : current = $('.visible').attr('id')
         $('.accordion-inner').css({height:getAvailableSize(athome, atimpactes)})
         recalculatePinPositions()
 
     })
 
-    __VOBRES = {loaded: {},
+    __VOBRES = {status: {},
+                loaded: {home:true},
                 pins :{ estadi:      {w:466, h:534, pop:'right',  title:'Estadi olímpic',       zone:'ANELLA OLÍMPICA'},
                         palau:       {w:437, h:532, pop:'bottom', title:'Palau Sant Jordi',     zone:'ANELLA OLÍMPICA'},
                         picornell:   {w:457, h:502, pop:'top',    title:'Piscines Picornell',   zone:'ANELLA OLÍMPICA'},
@@ -286,7 +309,7 @@ $(document).ready( function() {
     }
 
     // resize active section to remaining viewport size
-    $('.accordion-inner').css({height:getAvailableSize(true, false)})
+    $('.visible .accordion-body').css({height:getAvailableSize('home')})
 
 
 
@@ -303,7 +326,7 @@ function recalculatePinPositions() {
 
 function recalculatePinPosition(pin) {
     var section = { w:$('#impactes #map').width(),
-                    h:$('#impactes #map').height() }
+                    h:getAvailableSize('impactes') + 96 }
     var image = { w:1170, h:796 }
 
     // calculate the real height of the image as if not were
@@ -330,7 +353,7 @@ function recalculatePinPosition(pin) {
 
 
 
-function getAvailableSize(athome, atimpactes) {
+function getAvailableSize(visibleSection) {
     var total = 0
     var headers_at_home = 262
     var headers_at_sections = 170
@@ -340,10 +363,10 @@ function getAvailableSize(athome, atimpactes) {
     // Add the navbar
     total += $('.navbar').outerHeight()
     // Add the section headers
-    if (athome) {total += headers_at_home}
+    if (visibleSection==='home') {total += headers_at_home}
     else  {total += headers_at_sections}  
 
-    if (atimpactes) {total += 37}
+    if (visibleSection==='impactes') {total += 37}
     
     // Calculate available size by substracting occuped from viewport size
     var window_height = $(window).height()
@@ -358,7 +381,7 @@ function loadImpactesPage(page) {
         var available = data
         var numi = available.length
         var $container = $('#impactes .carousel-inner')
-        var pagesize = getAvailableSize(false,true)-30
+        var pagesize = getAvailableSize('impactes')-30
         var $pagina = $container.find('#'+page+' .pagina')
         var $wrapper = $pagina.find('.wrapper')
         var $goleft = $container.find('#'+page+' .goleft')
