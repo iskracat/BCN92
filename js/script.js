@@ -30,6 +30,32 @@ function doActionsForShow($sectionGroup) {
         $('#impactes .accordion-toggle h3.sub').text('')
         $('#videoportada').show()    
     }
+
+    if (currentId === 'miratges') {
+        if (!__VOBRES.loaded[currentId]) {
+            var miratges = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14']
+            var image_height = getAvailableSize('miratges') - 200
+            for (m=0;m<miratges.length;m++) {
+
+                $miratge = $('#item-'+miratges[m])
+                $parella = $('#parella-'+miratges[m])
+                var width = $parella.find('img').width()
+                var height = $parella.find('img').height()
+                var prop = width / height
+                var image_width = Math.floor(image_height * prop)
+
+                $miratge.find('.title').css({width:image_width})
+                $miratge.find('.peus').css({width:image_width})
+                var $images = $parella.find('img')
+                $($images.get(0)).css({width:image_width, height:image_height})
+                $($images.get(1)).css({width:image_width, height:image_height})
+                $miratge.css({'margin-left':Math.floor((1170 - image_width) / 2)})
+                $parella.beforeAfter( {showFullLinks:false})            
+            }
+
+        }
+        
+    }
 }
 
 
@@ -72,11 +98,12 @@ function showSection($sectionGroup) {
               // inject only contents inside selector #content                                                             
               filtered = $(data).filter('#content').html()                                                             
               $sectionInner.html(filtered)                                                              
-              __VOBRES.loaded[currentId] = true                                                                
+              
               if (currentId==='impactes') {                                                             
                 setTimeout(recalculatePinPositions, 300)                                                               
               }                          
               doActionsForShow($sectionGroup)                                      
+              __VOBRES.loaded[currentId] = true                                                                
           }, 'html' )                                                              
       }
 
@@ -140,8 +167,11 @@ $(document).ready( function() {
         event.preventDefault()
         event.stopPropagation()
         event.stopImmediatePropagation()
-        number = parseInt($(this).attr('rel'))
-        $('#miratgesCarousel').carousel(number)
+        $this =  $(this)
+        var number = parseInt($this.attr('rel'), 10)
+        $('.navitem.active').toggleClass('active', false)
+        $this.toggleClass('active', true)
+        $('#miratgesCarousel').carousel(number-1)
     })
 
     // Navigate to next impacte
@@ -247,7 +277,7 @@ $(document).ready( function() {
         var $wrapper = $pagina.find('.wrapper')
         var maxcols = $pagina.get(0).maxcols
         var visiblecols = Math.floor($pagina.width() / 110)
-        var currentscrollpos = (Math.floor(parseInt($wrapper.css('margin-left')) / 110) * -1)
+        var currentscrollpos = (Math.floor(parseInt($wrapper.css('margin-left'), 10) / 110) * -1)
         if (currentscrollpos > 0) currentscrollpos -=1
         var prevpos = currentscrollpos - 1
         if (prevpos>=0) $wrapper.animate({'margin-left':prevpos * -120 }, 200)
@@ -263,10 +293,48 @@ $(document).ready( function() {
         var $wrapper = $pagina.find('.wrapper')
         var maxcols = $pagina.get(0).maxcols
         var visiblecols = Math.floor($pagina.width() / 110)
-        var currentscrollpos = (Math.floor(parseInt($wrapper.css('margin-left')) / 110) * -1)
+        var currentscrollpos = (Math.floor(parseInt($wrapper.css('margin-left'), 10) / 110) * -1)
         if (currentscrollpos > 0) currentscrollpos -=1
         var nextpos = currentscrollpos + 1
         if (nextpos<=maxcols-visiblecols) $wrapper.animate({'margin-left':nextpos * -120 }, 200)
+        
+    })
+
+    $('#miratges').on('click', '.goleft', function(event) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+
+        var $navigation = $('#carouselNavigation')
+        var $wrapper = $navigation.find('.wrapper')
+        var step = 130
+        var currentscrollpos = parseInt($wrapper.css('margin-left'), 10)
+        var prevpos = currentscrollpos + step
+        console.log(prevpos)
+        if (prevpos<0) {
+            $wrapper.animate({'margin-left':prevpos}, 200)
+        }
+        
+    })
+
+    $('#miratges').on('click', '.goright', function(event) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+
+        var $navigation = $('#carouselNavigation')
+        var visibleWidth = $navigation.width()
+        var step = 130
+        var totalWidth = step * 14
+        var $wrapper = $navigation.find('.wrapper')
+        var currentscrollpos = parseInt($wrapper.css('margin-left'), 10)
+        var nextpos = currentscrollpos - step
+        console.log(nextpos)
+        if ((nextpos*-1)< (totalWidth - visibleWidth)) {
+            
+            //if (nextpos<=maxcols-visiblecols) $wrapper.animate({'margin-left':nextpos * -120 }, 200)
+            $wrapper.animate({'margin-left':nextpos }, 200)
+        }
         
     })
 
@@ -276,7 +344,8 @@ $(document).ready( function() {
         $('#accordion2').hasClass('athome')
             ? current = 'home'
             : current = $('.visible').attr('id')
-        $('.accordion-inner').css({height:getAvailableSize(athome, atimpactes)})
+        console.log(current)
+        $('visible .accordion-body').css({height:getAvailableSize(current)})
         recalculatePinPositions()
 
     })

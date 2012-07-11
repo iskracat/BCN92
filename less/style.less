@@ -398,8 +398,8 @@ i.fletxa {
 }
 
 #carouselWrapper {
-    width: 800px;
-    margin: 0 auto;    
+    width: 1170px;
+    margin: 0 auto;
     color:white;
     font-family: "InterstateRegular", "Verdana";
     font-weight:normal;
@@ -408,41 +408,91 @@ i.fletxa {
     #miratgesCarousel {
         .carousel-inner {
             .item {
-                .title {text-align: center; padding: 30px 0;}
-                .miratge {
-                    width:370px;
-                    float:left;                        
-                    margin-left:20px;
-                    text-align: center;
-                    span {padding: 30px 0;}
-                    img { 
-                        padding-bottom:20px; 
-                        opacity: 0.8;
-                        &:hover {opacity: 1.0;}
-                    }                    
-                }
 
+               a, a:hover, a:visited {color:white; text-decoration: none; position:absolute;}
+               .centerer { text-align: center; }
+               .parellaFotos {
+                   img { 
+                       max-width: none;
+                   }
+                }
+               .title {text-align: center; 
+                       position:relative;
+                        padding: 0 0 30px;
+                        font-family: "InterstateBlack", "Verdana";
+                        .despres { right:0px; }
+                        .avans { left:0px; }
+                }
+                .peus {
+                  position:relative;
+                  margin-top:10px;
+                  font-family: "InterstateRegular", "Verdana";
+                  .despres {position:absolute;right:0px;}
+                }
             }
         }
     }
 }
 
-#carouselNavigation {
-    .navitem {
-        float:left;
-        width:200px;
-        margin:40px 0;        
-        margin-left:20px;        
-        img {
-            width:96px;
-            float:left;
-            margin-right:4px;
-            opacity: 0.4;
-            &:hover {opacity: 1.0;}            
-        }
+#carouselNavigationContainer {
+
+     width: 90%;
+     margin: 0 auto;
+     position:relative;
+     .goleft {  position:absolute; left:-25px;width:7px; height:100px;
+                background-image: url(../img/fletxa_esquerra_central_inactiu.png);
+                background-repeat: no-repeat;
+                background-position: left center;
+                cursor:pointer;
+                &:hover {background-image: url(../img/fletxa_esquerra_central.png);}
+     }
+     .goright {  position:absolute; right:-25px;width:7px; height:100px;
+                background-image: url(../img/fletxa_dreta_central_inactiu.png);
+                background-repeat: no-repeat;
+                background-position: right center;
+                cursor:pointer;
+                &:hover {background-image: url(../img/fletxa_dreta_central.png);}
+     }     
+
+    #carouselNavigation {
+       width: 100%;
+       height:100px;
+       overflow:hidden;
+       .wrapper {
+          width:100000px;
+          margin-left:0px;
+          .navitem {
+              float:left;
+              width:102px;
+              margin:20px 20px 0 0;        
+              padding:5px;
+              &.active {
+                margin: 18px 18px 0 0;
+                border: 2px solid #888;
+                  -webkit-transition-property: border;
+                  -webkit-transition-duration: 0.2s;
+                  -webkit-transition-timing-function: ease-in-out;    
+                  -moz-transition-property: border;
+                  -moz-transition-duration: 0.2s;
+                  -moz-transition-timing-function: ease-in-out;   
+
+                img {opacity: 1.0;}
+              }
+              img {
+                  float:left;
+                  opacity: 0.4;
+                  -webkit-transition-property: opacity;
+                  -webkit-transition-duration: 0.3s;
+                  -webkit-transition-timing-function: ease-in-out;    
+                  -moz-transition-property: opacity;
+                  -moz-transition-duration: 0.3s;
+                  -moz-transition-timing-function: ease-in-out;   
+                  &:hover {opacity: 1.0;}            
+              }
+          }
+       }
     }
 }
-
 
 /*SECTIONS*/
 
