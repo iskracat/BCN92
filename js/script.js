@@ -494,9 +494,9 @@ function getAvailableSize(visibleSection) {
 
 function loadImpactesPage(page) {
 
-    var url = 'content/impactes/'+page+'.json'
     var language = $('html').attr('lang') 
-    language_folder = language!='ca/' ? language : ''
+    lf = language!='ca/' ? '../' : ''
+    var url = 'content/impactes/'+page+'.json'    
     $.get(url, function(data) {
         var available = data
         var numi = available.length
@@ -524,15 +524,15 @@ function loadImpactesPage(page) {
         for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
-            if (impacte.type=='single') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a href="'+impacte.image+'" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
-            if (impacte.type=='video') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="http://youtu.be/QFAAI0NZz-w" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='single') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a href="'+lf+impacte.image+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='video') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="http://youtu.be/QFAAI0NZz-w" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
             if (impacte.type=='serie') {
                 var serielinks = ''
                 for (l=1;l<impacte.items.length;l++) {
-                    serielinks += '<a data-fancybox-group="'+impacte.id+'" href="'+impacte.items[l].image+'" title="'+impacte.items[l].footer+'"></a>'
+                    serielinks += '<a data-fancybox-group="'+impacte.id+'" href="'+lf+impacte.items[l].image+'" title="'+impacte.items[l].footer+'"></a>'
                 }
 
-                $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a data-fancybox-group="'+impacte.id+'" href="'+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
+                $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a data-fancybox-group="'+impacte.id+'" href="'+lf+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+lf+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
             }  
         }
 
