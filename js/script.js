@@ -10,6 +10,7 @@ function doActionsForHide($sectionGroup) {
     var currentId = $sectionGroup.attr('id')
 
     if (currentId === 'home') {
+        $('#videoportada embed').pauseVideo()            
         $('#videoportada').hide()    
     }
 
@@ -34,6 +35,7 @@ function doActionsForShow($sectionGroup) {
         $('#impactes .accordion-toggle h3.main').text('Les petjades de la transformació')
         $('#impactes .accordion-toggle h3.sub').text('')
         $('#videoportada').show()    
+        $('#videoportada embed').playVideo()            
     }
 
     if (currentId === 'miratges') {
