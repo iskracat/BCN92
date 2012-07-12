@@ -10,7 +10,7 @@ function doActionsForHide($sectionGroup) {
     var currentId = $sectionGroup.attr('id')
 
     if (currentId === 'home') {
-        $('#videoportada embed').pauseVideo()            
+        $('#videoportada embed').get(0).pauseVideo()            
         $('#videoportada').hide()    
     }
 
@@ -35,7 +35,7 @@ function doActionsForShow($sectionGroup) {
         $('#impactes .accordion-toggle h3.main').text('Les petjades de la transformació')
         $('#impactes .accordion-toggle h3.sub').text('')
         $('#videoportada').show()    
-        $('#videoportada embed').playVideo()            
+        $('#videoportada embed').get(0).playVideo()            
     }
 
     if (currentId === 'miratges') {
@@ -414,7 +414,7 @@ $(document).ready( function() {
     var pinnames = ['estadi','palau' ,'picornell' ,'calatrava' ,'ronda' ,'platges' ,'portolimpic' ,'portvell' ,'torres' ,'vila' ,'cinturo' ,'collserola']
     for (p=0;p<pinnames.length;p++) {
         var pin = pinnames[p]
-        var options = {     title: __VOBRES.pins[pin]['zone']+'<br/>'+__VOBRES.pins[pin]['title'],
+        var options = {     title: '<span>'+__VOBRES.pins[pin]['zone']+'</span><br/>'+__VOBRES.pins[pin]['title'],
                         placement: __VOBRES.pins[pin]['pop']
                        }
         $('.pin#'+pin).popover(options)
@@ -429,7 +429,7 @@ $(document).ready( function() {
 
  function onYouTubePlayerReady(playerId) {
       console.log('youtube')
-      testimoniplayer = document.getElementById("s");
+
     }
 
 function recalculatePinPositions() {
@@ -493,7 +493,11 @@ function getAvailableSize(visibleSection) {
 
 
 function loadImpactesPage(page) {
-    $.get('content/impactes/'+page+'/data.json', function(data) {
+
+    var language = $('html').attr('lang') 
+    lf = language!='ca/' ? '../' : ''
+    var url = 'content/impactes/'+page+'.json'    
+    $.get(url, function(data) {
         var available = data
         var numi = available.length
         var $container = $('#impactes .carousel-inner')
@@ -520,15 +524,15 @@ function loadImpactesPage(page) {
         for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
-            if (impacte.type=='single') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a href="'+impacte.image+'" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
-            if (impacte.type=='video') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="http://youtu.be/QFAAI0NZz-w" title="'+impacte.footer+'"><img src="'+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='single') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a href="'+lf+impacte.image+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='video') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="http://youtu.be/QFAAI0NZz-w" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
             if (impacte.type=='serie') {
                 var serielinks = ''
                 for (l=1;l<impacte.items.length;l++) {
-                    serielinks += '<a data-fancybox-group="'+impacte.id+'" href="'+impacte.items[l].image+'" title="'+impacte.items[l].footer+'"></a>'
+                    serielinks += '<a data-fancybox-group="'+impacte.id+'" href="'+lf+impacte.items[l].image+'" title="'+impacte.items[l].footer+'"></a>'
                 }
 
-                $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a data-fancybox-group="'+impacte.id+'" href="'+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
+                $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a data-fancybox-group="'+impacte.id+'" href="'+lf+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+lf+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
             }  
         }
 
