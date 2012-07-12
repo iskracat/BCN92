@@ -1,4 +1,4 @@
-/* Author:
+/** Author:
 
  Iskra
 
@@ -12,6 +12,11 @@ function doActionsForHide($sectionGroup) {
     if (currentId === 'home') {
         try { $('#videoportada embed').get(0).pauseVideo() } catch(err) {}
         $('#videoportada').hide()    
+    }
+
+    if (currentId === 'impactes') {
+        $('#impactes .accordion-toggle h3.main').text(__VOBRES['petjades_title'])
+        $('#impactes .accordion-toggle h3.sub').text('')
     }
 
     if (currentId === 'testimonis') {
@@ -37,7 +42,7 @@ function doActionsForShow($sectionGroup) {
         $('#bigone').toggleClass('dissolve', true)        
         $('#map').toggleClass('dissolve', false)
         $('#impactesCarousel').carousel(0)
-        $('#impactes .accordion-toggle h3.main').text('Les petjades de la transformació')
+        $('#impactes .accordion-toggle h3.main').text(__VOBRES['petjades_title'])
         $('#impactes .accordion-toggle h3.sub').text('')
         $('#videoportada').show()    
         try { $('#videoportada embed').get(0).playVideo() } catch(err) {}           
@@ -270,7 +275,7 @@ $(document).ready( function() {
         $('#bigone').toggleClass('dissolve', true)        
         $('#map').toggleClass('dissolve', false)
         setTimeout(function() {$('#impactesCarousel').carousel(0)}, 1000)
-        $('#impactes .accordion-toggle h3').text('Les petjades de la transformació')
+        $('#impactes .accordion-toggle h3.main').text(__VOBRES['petjades_title'])
         $('#impactes .accordion-toggle h3.sub').text('')
 
 
@@ -430,7 +435,8 @@ $(document).ready( function() {
                         vila:        {w:690, h:560, pop:'right'},
                         cinturo:     {w:621, h:277, pop:'left'},
                         collserola:  {w:553, h:203, pop:'bottom'}
-                      }
+                      },
+                petjades_title :$('#impactes h3.main').text()
                }
 
 
@@ -608,7 +614,7 @@ function loadImpactesPage(page) {
 
                                                              $('.fancybox-outer').prepend(actionbuttons)
                                                              $('.fancybox-outer .download a').attr('href', fullimage)
-                                                             
+
                                                              $('.fancybox-outer .nextf').on('click', function(event) {
                                                                 event.preventDefault()
                                                                 event.stopPropagation()
@@ -746,7 +752,7 @@ function loadImpactesPage(page) {
     $('#impactes .accordion-toggle h3.sub').text(__VOBRES.pins[page]['title'])
 }
 
-/* 
+/** 
  * Main entrypoint iterated to place each image in the layout
  */
 
@@ -769,7 +775,7 @@ function getAvailablePos(cls) {
     
 }
 
-/*
+/**
  * Tries to place a tile in a new position near the top. This will happen
  * The first time and every time that there is no hole or trailing space to fill.
  */
@@ -788,7 +794,7 @@ function getLastPos(cls) {
     return {r:row, c:last}
 }
 
-/* 
+/** 
  * Fills one position with a `1`. Takes care to left-zero-padding if a hole
  * has been created, and also if we are overwriting (filling a hole) or creating
  */
@@ -808,7 +814,7 @@ function fillPos(r, c) {
     }
 }
 
-/*
+/**
  * Fills with ones all the positions defined by class `cls` starting
  * at position pos
  */
@@ -824,7 +830,7 @@ function fillLastPos(cls, pos) {
   alignHoleMarkers()
 }
 
-/*
+/**
  * Iterates through all the occuped positions to pad with
  * zeroes all unused positions to align with longest row.
  * This allows to detect `empty` zones as holes and fill them.
@@ -844,7 +850,7 @@ function alignHoleMarkers() {
 }
 
 
-/*
+/**
  * Finds the longest filled row
  */
 
@@ -858,7 +864,7 @@ function getLongestRow() {
   return longest
 }
 
-/*
+/**
  * Checks if the last found hole at position `pos` is more at left than
  * the one at `r,c`. Default to true if first or in same column.
 */
@@ -878,7 +884,7 @@ function isLefterThan(pos, r, c) {
 }
 
 
-/*
+/**
  *  Looks for any hole that has been left behind, and chooses the one
  * that is nearest to the 0 column 0
  */
@@ -907,7 +913,7 @@ function searchLeftMostHoleFor(cls) {
 
 }
 
-/*
+/**
  *  Checks whether a certain tile fits in a a hole at point (t,c)
  *  depending on its class, and without violating boundaries
  */
@@ -922,7 +928,7 @@ function tileFits(cls, r, c) {
     return fits
 }
 
-/*
+/**
  *  Checks whether a position in map is available to use
  */
 
