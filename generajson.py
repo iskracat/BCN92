@@ -78,20 +78,20 @@ for sheet in wb.sheets():
                                      'class': getImageClass(thumbfilename),
                                      'type': 'serie',
                                      'id': '%s_ser_%d' % (folder, seriecount),
-                                     'items': [{'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie_ca)]
+                                     'items': [{'full': getExistingImage(folder, item[0]), 'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie_ca)]
                                      })
                     items_en.append({'thumb': thumbfilename,
                                      'class': getImageClass(thumbfilename),
                                      'type': 'serie',
                                      'id': '%s_ser_%d' % (folder, seriecount),
-                                     'items': [{'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie_en)]
+                                     'items': [{'full': getExistingImage(folder, item[0]), 'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie_en)]
                                      })
 
                     items_es.append({'thumb': thumbfilename,
                                      'class': getImageClass(thumbfilename),
                                      'type': 'serie',
                                      'id': '%s_ser_%d' % (folder, seriecount),
-                                     'items': [{'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie_es)]
+                                     'items': [{'full': getExistingImage(folder, item[0]), 'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie_es)]
                                      })
 
                     serie_ca = []
@@ -103,22 +103,26 @@ for sheet in wb.sheets():
                 if not 'serie' in row[5].lower() and not 'VIDEO' in row[0].upper() and not row[0][0] in ['u', 'v']:
                     thumbname = '%s_fot_thu' % row[0]
                     thumbfilename = getExistingImage(folder, thumbname)
+                    fullfilename = getExistingImage(folder, row[0])
                     imagename = '%s_fot' % row[0]
                     imagefilename = getExistingImage(folder, imagename)
                     if thumbfilename:
                         items_ca.append({'thumb': thumbfilename,
+                                        'full': fullfilename,
                                         'footer': row[1].replace('"', "'"),
                                         'image': imagefilename,
                                         'class': getImageClass(thumbfilename),
                                         'type': 'single'
                                         })
                         items_en.append({'thumb': thumbfilename,
+                                        'full': fullfilename,
                                         'footer': row[3].replace('"', "'"),
                                         'image': imagefilename,
                                         'class': getImageClass(thumbfilename),
                                         'type': 'single'
                                         })
                         items_es.append({'thumb': thumbfilename,
+                                         'full': fullfilename,
                                          'footer': row[2].replace('"', "'"),
                                          'image': imagefilename,
                                          'class': getImageClass(thumbfilename),

@@ -10,13 +10,13 @@ function doActionsForHide($sectionGroup) {
     var currentId = $sectionGroup.attr('id')
 
     if (currentId === 'home') {
-        $('#videoportada embed').get(0).pauseVideo()            
+        try { $('#videoportada embed').get(0).pauseVideo() } catch(err) {}
         $('#videoportada').hide()    
     }
 
     if (currentId === 'testimonis') {
         playingvideo = $('#videotestimoni embed').get(0)
-        if (playingvideo) { playingvideo.pauseVideo() }
+        if (playingvideo) { try {playingvideo.pauseVideo() } catch(err) {} }
     }
 }
 
@@ -35,7 +35,7 @@ function doActionsForShow($sectionGroup) {
         $('#impactes .accordion-toggle h3.main').text('Les petjades de la transformació')
         $('#impactes .accordion-toggle h3.sub').text('')
         $('#videoportada').show()    
-        $('#videoportada embed').get(0).playVideo()            
+        try { $('#videoportada embed').get(0).playVideo() } catch(err) {}           
     }
 
     if (currentId === 'miratges') {
@@ -69,7 +69,7 @@ function doActionsForShow($sectionGroup) {
     if (currentId === 'testimonis') {
         $('#testimonis .video').css({height: getAvailableSize('testimonis') - 200})
         playingvideo = $('#videotestimoni embed').get(0)
-        if (playingvideo) { playingvideo.playVideo() 
+        if (playingvideo) { try { playingvideo.playVideo() } catch(err) {}
         } else {
             $('#testimonis .firsttime').trigger('click')
         }
@@ -358,6 +358,8 @@ $(document).ready( function() {
     })
 
 
+
+
     $('#testimonis').on('click', '.testimoni', function(event) {
         event.preventDefault()
         event.stopPropagation()
@@ -444,10 +446,16 @@ $(document).ready( function() {
 
 }) // End jQuery ready wrapper
 
- function onYouTubePlayerReady(playerId) {
-      console.log('youtube')
 
+  function downloadFullImageFor(path){
+        var $fancybox = $(event.target).closest('.fancybox-wrap')
+        var $img = $fancybox.find('.fancybox-image')
+        var path = $img.attr('src')
+        var imagename = path[path.length-1]
+        console.log(imagename)
+        //$('.impacte a[href*="DdB_2471012_fot.jpg"]')
     }
+
 
 function recalculatePinPositions() {
     var pins = $('#map .pin')
@@ -541,15 +549,15 @@ function loadImpactesPage(page) {
         for (i=0;i<numi;i++) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
-            if (impacte.type=='single') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a href="'+lf+impacte.image+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
-            if (impacte.type=='video') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="'+impacte.url+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='single') $wrapper.append('<div rel="'+i+'" class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a full="'+lf+impacte.full+'" href="'+lf+impacte.image+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='video') $wrapper.append('<div rel="'+i+'" class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" full="'+lf+impacte.full+'" href="'+impacte.url+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
             if (impacte.type=='serie') {
                 var serielinks = ''
                 for (l=1;l<impacte.items.length;l++) {
-                    serielinks += '<a data-fancybox-group="'+impacte.id+'" href="'+lf+impacte.items[l].image+'" title="'+impacte.items[l].footer+'"></a>'
+                    serielinks += '<a data-fancybox-group="'+impacte.id+'" full="'+lf+impacte.items[l].full+'" href="'+lf+impacte.items[l].image+'" title="'+impacte.items[l].footer+'"></a>'
                 }
 
-                $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a data-fancybox-group="'+impacte.id+'" href="'+lf+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+lf+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
+                $wrapper.append('<div rel="'+i+'" class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a full="'+lf+impacte.items[0].full+'"  data-fancybox-group="'+impacte.id+'" href="'+lf+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+lf+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
             }  
         }
 
@@ -562,19 +570,63 @@ function loadImpactesPage(page) {
         }
 
         var actionbuttons = '<div class="actions">\
-                                 <div class="prev"></div>\
-                                 <div class="next"></div>\
-                                 <div class="download"></div>\
+                                 <div class="prevf"></div>\
+                                 <div class="nextf"></div>\
+                                 <div class="download"><a target="_blank" ></div>\
                                  <div class="closef"></div>\
                              </div>'
 
+
+        var actionbuttonsvideo = '<div class="actions">\
+                                 <div class="prevf"></div>\
+                                 <div class="nextf"></div>\
+                                 <div class="closef"></div>\
+                             </div>'
         
         $("#"+page+" .impacte.single a").fancybox({ helpers    : { title : { type : 'inside' }, 
                                                     overlay    : { css: {opacity:0.8}} },
                                                     closeBtn   : false,
                                                     arrows     : false,
                                                     afterShow : function() {
+                                                             var $element = $(this.element)
+                                                             var $impacte = $element.closest('.impacte')
+                                                             var fullimage = $element.attr('full')
+                                                             var impacteid = parseInt($impacte.attr('rel'),10)
+                                                             var maximpacte = $('#impactesCarousel .item').length
+                                                             var nextimpacte = impacteid+1
+                                                             var previmpacte = impacteid-1
+
                                                              $('.fancybox-outer').prepend(actionbuttons)
+
+                                                             $('.fancybox-outer .nextf').on('click', function(event) {
+                                                                event.preventDefault()
+                                                                event.stopPropagation()
+                                                                event.stopImmediatePropagation()
+                                                                if (nextimpacte<maximpacte) {
+                                                                    var $next = $('#impactesCarousel .item.active .impacte[rel="'+nextimpacte+'"] a')
+                                                                    $.fancybox.close()
+                                                                    $next.trigger('click')
+                                                                }
+                                                             })
+
+                                                             $('.fancybox-outer .prevf').on('click', function(event) {
+                                                                event.preventDefault()
+                                                                event.stopPropagation()
+                                                                event.stopImmediatePropagation()
+                                                                if (previmpacte>=0) {
+                                                                    var $next = $('#impactesCarousel .item.active .impacte[rel="'+previmpacte+'"] a')
+                                                                    $.fancybox.close()
+                                                                    $next.trigger('click')
+                                                                }
+                                                             })
+
+                                                             $('.fancybox-outer .closef').on('click', function(event) {
+                                                                event.preventDefault()
+                                                                event.stopPropagation()
+                                                                event.stopImmediatePropagation()
+                                                                console.log('close')
+                                                                $.fancybox.close()
+                                                             })
                                                          }
                                                  });
 
@@ -584,7 +636,45 @@ function loadImpactesPage(page) {
                                                     closeBtn   : false,
                                                     arrows     : false,
                                                     afterShow : function() {
-                                                             $('.fancybox-outer').prepend(actionbuttons)
+                                                             var $element = $(this.element)
+                                                             var $impacte = $element.closest('.impacte')
+                                                             var fullimage = $element.attr('full')
+                                                             var impacteid = parseInt($impacte.attr('rel'),10)
+                                                             var maximpacte = $('#impactesCarousel .item').length
+                                                             var nextimpacte = impacteid+1
+                                                             var previmpacte = impacteid-1
+
+                                                             $('.fancybox-outer').prepend(actionbuttonsvideo)
+
+                                                             $('.fancybox-outer .nextf').on('click', function(event) {
+                                                                event.preventDefault()
+                                                                event.stopPropagation()
+                                                                event.stopImmediatePropagation()
+                                                                if (nextimpacte<maximpacte) {
+                                                                    var $next = $('#impactesCarousel .item.active .impacte[rel="'+nextimpacte+'"] a')
+                                                                    $.fancybox.close()
+                                                                    $next.trigger('click')
+                                                                }
+                                                             })
+
+                                                             $('.fancybox-outer .prevf').on('click', function(event) {
+                                                                event.preventDefault()
+                                                                event.stopPropagation()
+                                                                event.stopImmediatePropagation()
+                                                                if (previmpacte>=0) {
+                                                                    var $next = $('#impactesCarousel .item.active .impacte[rel="'+previmpacte+'"] a')
+                                                                    $.fancybox.close()
+                                                                    $next.trigger('click')
+                                                                }
+                                                             })
+
+                                                             $('.fancybox-outer .closef').on('click', function(event) {
+                                                                event.preventDefault()
+                                                                event.stopPropagation()
+                                                                event.stopImmediatePropagation()
+                                                                console.log('close')
+                                                                $.fancybox.close()
+                                                             })
                                                          }
 
                                                  });
@@ -596,9 +686,47 @@ function loadImpactesPage(page) {
                                                     overlay    : { css: {opacity:0.8}} },
                                                     closeBtn   : false,
                                                     afterShow : function() {
-                                                                    $('.fancybox-outer').prepend(actionbuttons)
-                                                                }
+                                                             var $element = $(this.element)
+                                                             var $impacte = $element.closest('.impacte')
+                                                             var fullimage = $element.attr('full')
+                                                             var impacteid = parseInt($impacte.attr('rel'),10)
+                                                             var maximpacte = $('#impactesCarousel .item').length
+                                                             var nextimpacte = impacteid+1
+                                                             var previmpacte = impacteid-1
 
+                                                             $('.fancybox-outer').prepend(actionbuttons)
+                                                             $('.fancybox-outer .download a').attr('href', fullimage)
+
+                                                             $('.fancybox-outer .nextf').on('click', function(event) {
+                                                                event.preventDefault()
+                                                                event.stopPropagation()
+                                                                event.stopImmediatePropagation()
+                                                                if (nextimpacte<maximpacte) {
+                                                                    var $next = $('#impactesCarousel .item.active .impacte[rel="'+nextimpacte+'"] a')
+                                                                    $.fancybox.close()
+                                                                    $next.trigger('click')
+                                                                }
+                                                             })
+
+                                                             $('.fancybox-outer .prevf').on('click', function(event) {
+                                                                event.preventDefault()
+                                                                event.stopPropagation()
+                                                                event.stopImmediatePropagation()
+                                                                if (previmpacte>=0) {
+                                                                    var $next = $('#impactesCarousel .item.active .impacte[rel="'+previmpacte+'"] a')
+                                                                    $.fancybox.close()
+                                                                    $next.trigger('click')
+                                                                }
+                                                             })
+
+                                                             $('.fancybox-outer .closef').on('click', function(event) {
+                                                                event.preventDefault()
+                                                                event.stopPropagation()
+                                                                event.stopImmediatePropagation()
+                                                                console.log('close')
+                                                                $.fancybox.close()
+                                                             })
+                                                         }
                                                  });
 
 
