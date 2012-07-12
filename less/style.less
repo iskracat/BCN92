@@ -32,6 +32,39 @@ body {
     color:black;
 }
 
+.fancybox-skin {
+  background-color: @grismig; 
+  border:1px solid @gris34;
+
+  .fancybox-title {
+     font-family: "InterstateRegular", "Verdana";
+     color:#eee;
+     font-size: 14px;
+  }
+}
+
+
+.actions {
+height:50px;
+width:100%;
+position:relative;
+
+  div {  width:50px;
+         height:50px;
+         position:absolute;
+         background-repeat:no-repeat;
+  }
+
+ .prev { background-image: url('../img/esquerra_inactiu.png'); right:130px; &:hover { background-image: url('../img/esquerra_actiu.png');}}
+ .next { background-image: url('../img/dreta_inactiu.png'); right:90px; &:hover { background-image: url('../img/dreta_actiu.png');}}
+ .download { background-image: url('../img/descarregar_inactiu.png'); right:25px; &:hover { background-image: url('../img/descarrega_actiu.png');}}
+ .closef { background-image: url('../img/tancar_inactiu.png'); right:-15px; &:hover { background-image: url('../img/tancar_actiu.png');}}
+
+ }
+
+
+
+
 body {
     background-color: @fonsseccio;
     font-weight:normal;
