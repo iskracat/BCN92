@@ -56,6 +56,10 @@ function doActionsForShow($sectionGroup) {
         }
         
     }
+
+    if (currentId === 'testimonis') {
+        $('#testimonis .video').css({height: getAvailableSize('miratges') - 200})
+    }
 }
 
 
@@ -338,6 +342,34 @@ $(document).ready( function() {
         
     })
 
+
+    $('#testimonis').on('click', '.testimoni', function(event) {
+        event.preventDefault()
+        event.stopPropagation()
+        event.stopImmediatePropagation()
+
+        var $testimoni = $(this)
+        var $video = $('#testimonis .video')
+        var video = $testimoni.attr('rel')
+        var width = 500
+        var height = 400
+        var mtop = ($video.height() - height ) /2
+        var videotag = '\
+<div style="width:'+width+'px;height:'+height+'px; margin:'+mtop+'px auto;">\
+<object id="videoportada" width="'+width+'" height="'+height+'">\
+<param name="movie" value="'+video+'\?version=3&amp;hl=ca_ES&amp;autoplay=1"></param>\
+<param name="allowFullScreen" value="true"></param>\
+<param name="allowscriptaccess" value="always"></param>\
+    <embed src="'+video+'?version=3&amp;hl=ca_ES&amp;autoplay=1" \
+           type="application/x-shockwave-flash" \
+           width="'+width+'" height="'+height+'" \
+           allowscriptaccess="always" allowfullscreen="true"></embed></object></div>'
+
+        $('.testimoni.active').toggleClass('active', false)
+        $testimoni.toggleClass('active', true)
+        $('#testimonis .video').html(videotag)
+
+    })
 
     $(window).resize(function () {
         var current

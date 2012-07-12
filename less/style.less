@@ -444,14 +444,14 @@ i.fletxa {
                 background-repeat: no-repeat;
                 background-position: left center;
                 cursor:pointer;
-                &:hover {background-image: url(../img/fletxa_esquerra_central.png);}
+                &:hover, &.active {background-image: url(../img/fletxa_esquerra_central.png);}
      }
      .goright {  position:absolute; right:-25px;width:7px; height:100px;
                 background-image: url(../img/fletxa_dreta_central_inactiu.png);
                 background-repeat: no-repeat;
                 background-position: right center;
                 cursor:pointer;
-                &:hover {background-image: url(../img/fletxa_dreta_central.png);}
+                &:hover, &.active {background-image: url(../img/fletxa_dreta_central.png);}
      }     
 
     #carouselNavigation {
@@ -530,14 +530,14 @@ i.fletxa {
               background-repeat: no-repeat;
               background-position: center center;
               cursor:pointer;
-              &:hover {background-image: url(../img/fletxa_esquerra_central.png);}
+              &:hover, &.active {background-image: url(../img/fletxa_esquerra_central.png);}
             }
             .goright {
               background-image: url(../img/fletxa_dreta_central_inactiu.png);
               background-repeat: no-repeat;
               background-position: center center;              
               cursor:pointer;
-              &:hover {background-image: url(../img/fletxa_dreta_central.png);}
+              &:hover, &.active {background-image: url(../img/fletxa_dreta_central.png);}
             }            
             .pagina {
                 overflow: hidden;              
@@ -602,6 +602,55 @@ i.fletxa {
     }
 }
 
+
+
+#testimonis {
+
+  .video {
+     background-color:@grismig;
+     -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+     border-radius: 5px;
+     margin-bottom:20px;
+
+  }
+  .testimoni {
+
+     &:hover, &.active {
+         background-color:@groc; 
+         span {color:black;}
+         cursor:pointer;
+     }
+     text-align: center;
+     background-color:@grismig;
+     height:45px;
+     padding-top:85px;
+     -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+     border-radius: 5px;
+     background-repeat:no-repeat;
+     background-position: center 10px;
+     span { color:#666;
+            font-family: Verdana;
+            &.nom {font-size:13px; font-weight: bold;}
+            &.professio {font-size:12px; font-style: italic;}
+     }
+
+     &#lavina   { background-image:          url('../images/testimonis/lavina_inactiu.png'); 
+                  &:hover, &.active {background-image: url('../images/testimonis/lavina_actiu.png'); }}
+     &#llorens  { background-image:          url('../images/testimonis/llorens_inactiu.png'); 
+                  &:hover, &.active {background-image: url('../images/testimonis/llorens_actiu.png'); }}
+     &#clanchet { background-image:          url('../images/testimonis/clanchet_inactiu.png'); 
+                  &:hover, &.active {background-image: url('../images/testimonis/clanchet_actiu.png'); }}                        
+     &#granados { background-image:          url('../images/testimonis/granados_inactiu.png'); 
+                  &:hover, &.active {background-image: url('../images/testimonis/granados_actiu.png'); }}
+     &#delgado  { background-image:          url('../images/testimonis/clanchet_inactiu.png'); 
+                  &:hover, &.active {background-image: url('../images/testimonis/clanchet_actiu.png'); }}
+     &#montaner { background-image:          url('../images/testimonis/montaner_inactiu.png'); 
+                  &:hover, &.active {background-image: url('../images/testimonis/montaner_actiu.png'); }}
+
+        }
+      }
 
 @media screen and (min-width : 1170px) {
     .accordion-group.visible#impactes #map { background-image: url(../img/fons_mapa_1920.jpg); }
