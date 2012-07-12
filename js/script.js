@@ -15,8 +15,13 @@ function doActionsForHide($sectionGroup) {
     }
 
     if (currentId === 'testimonis') {
-        playingvideo = $('#videotestimoni embed').get(0)
+        var playingvideo = $('#videotestimoni embed').get(0)
         if (playingvideo) { try {playingvideo.pauseVideo() } catch(err) {} }
+    }
+
+    if (currentId === 'miratges') {
+        var $fuku = $('#miratges .item.active .parellaFotos')
+        if ($fuku) {$fuku.hide()}
     }
 }
 
@@ -62,7 +67,12 @@ function doActionsForShow($sectionGroup) {
                 $parella.beforeAfter( {showFullLinks:false, imagePath:lf+'img/'})            
             }
 
+        } else {
+            var $fuku = $('#miratges .item.active .parellaFotos')
+            if ($fuku) {$fuku.show()}
+
         }
+
         
     }
 
@@ -548,16 +558,16 @@ function loadImpactesPage(page) {
         }
         for (i=0;i<numi;i++) {
             var impacte = data[i]
-            var pos = getAvailablePos(impacte.class)
-            if (impacte.type=='single') $wrapper.append('<div rel="'+i+'" class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a full="'+lf+impacte.full+'" href="'+lf+impacte.image+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
-            if (impacte.type=='video') $wrapper.append('<div rel="'+i+'" class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" full="'+lf+impacte.full+'" href="'+impacte.url+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            var pos = getAvailablePos(impacte['class'])
+            if (impacte.type=='single') $wrapper.append('<div rel="'+i+'" class="impacte '+impacte.type+' '+impacte['class']+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a full="'+lf+impacte.full+'" href="'+lf+impacte.image+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='video') $wrapper.append('<div rel="'+i+'" class="impacte '+impacte.type+' '+impacte['class']+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" full="'+lf+impacte.full+'" href="'+impacte.url+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
             if (impacte.type=='serie') {
                 var serielinks = ''
                 for (l=1;l<impacte.items.length;l++) {
                     serielinks += '<a data-fancybox-group="'+impacte.id+'" full="'+lf+impacte.items[l].full+'" href="'+lf+impacte.items[l].image+'" title="'+impacte.items[l].footer+'"></a>'
                 }
 
-                $wrapper.append('<div rel="'+i+'" class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a full="'+lf+impacte.items[0].full+'"  data-fancybox-group="'+impacte.id+'" href="'+lf+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+lf+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
+                $wrapper.append('<div rel="'+i+'" class="impacte '+impacte.type+' '+impacte['class']+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a full="'+lf+impacte.items[0].full+'"  data-fancybox-group="'+impacte.id+'" href="'+lf+impacte.items[0].image+'" title="'+impacte.items[0].footer+'"><img src="'+lf+impacte.thumb+'"></a>'+serielinks+'<i class="emblem"></i></div>')            
             }  
         }
 
@@ -572,7 +582,7 @@ function loadImpactesPage(page) {
         var actionbuttons = '<div class="actions">\
                                  <div class="prevf"></div>\
                                  <div class="nextf"></div>\
-                                 <div class="download"><a target="_blank" ></div>\
+                                 <div class="download"><a href="#" target="_blank" ></div>\
                                  <div class="closef"></div>\
                              </div>'
 
@@ -597,7 +607,8 @@ function loadImpactesPage(page) {
                                                              var previmpacte = impacteid-1
 
                                                              $('.fancybox-outer').prepend(actionbuttons)
-
+                                                             $('.fancybox-outer .download a').attr('href', fullimage)
+                                                             
                                                              $('.fancybox-outer .nextf').on('click', function(event) {
                                                                 event.preventDefault()
                                                                 event.stopPropagation()
