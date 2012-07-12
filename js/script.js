@@ -550,7 +550,6 @@ function loadImpactesPage(page) {
             $goright.hide()
         }
 
-
         var actionbuttons = '<div class="actions">\
                                  <div class="prev"></div>\
                                  <div class="next"></div>\
@@ -558,33 +557,37 @@ function loadImpactesPage(page) {
                                  <div class="closef"></div>\
                              </div>'
 
-        $("#"+page+" .impacte a").fancybox({ helpers    : { title : { type : 'inside' }, },
-                                             closeBtn   : false,
-                                             afterShow : function() {
+        
+        $("#"+page+" .impacte.single a").fancybox({ helpers    : { title : { type : 'inside' }, 
+                                                    overlay    : { css: {opacity:0.8}} },
+                                                    closeBtn   : false,
+                                                    afterShow : function() {
                                                              $('.fancybox-outer').prepend(actionbuttons)
                                                          }
-                                           })
+                                                 });
 
-        
-        // $("#"+page+" .impacte.single a").fancybox({ helpers    : { title : { type : 'inside' }, 
-        //                                             overlay    : { css: {opacity:0.8}} },
-        //                                             afterLoad  : function() {
-        //                                                 a = 0
-                                                        
-        //                                             } 
-        //                                          });
+        $("#"+page+" .impacte.video a"). fancybox({ helpers    : { media: {}, 
+                                                                title : { type : 'inside' }, 
+                                                    overlay    : { css: {opacity:0.8}} },
+                                                    closeBtn   : false,
+                                                    afterShow : function() {
+                                                             $('.fancybox-outer').prepend(actionbuttons)
+                                                         }
 
-        // $("#"+page+" .impacte.video a"). fancybox({ helpers    : { media: {}, 
-        //                                                         title : { type : 'inside' }, 
-        //                                             overlay    : { css: {opacity:0.8}} } 
-        //                                          });
+                                                 });
 
-        // $("#"+page+" .impacte.serie a"). fancybox({ prevEffect : 'none', 
-        //                                             nextEffect : 'none', 
-        //                                             helpers    : { thumbs: { width: 50, height:50}, 
-        //                                                         title : { type : 'inside' }, 
-        //                                             overlay    : { css: {opacity:0.8}} } 
-        //                                          });
+        $("#"+page+" .impacte.serie a"). fancybox({ prevEffect : 'none', 
+                                                    nextEffect : 'none', 
+                                                    helpers    : { thumbs: { width: 50, height:50}, 
+                                                                title : { type : 'inside' }, 
+                                                    overlay    : { css: {opacity:0.8}} },
+                                                    closeBtn   : false,
+                                                    afterShow : function() {
+                                                                    $('.fancybox-outer').prepend(actionbuttons)
+                                                                }
+
+                                                 });
+
 
     }, 'json')
     $('#impactes .accordion-toggle h3.main').text(__VOBRES.pins[page]['zone'])
