@@ -414,7 +414,7 @@ $(document).ready( function() {
     var pinnames = ['estadi','palau' ,'picornell' ,'calatrava' ,'ronda' ,'platges' ,'portolimpic' ,'portvell' ,'torres' ,'vila' ,'cinturo' ,'collserola']
     for (p=0;p<pinnames.length;p++) {
         var pin = pinnames[p]
-        var options = {     title: __VOBRES.pins[pin]['zone']+'<br/>'+__VOBRES.pins[pin]['title'],
+        var options = {     title: '<span>'+__VOBRES.pins[pin]['zone']+'</span><br/>'+__VOBRES.pins[pin]['title'],
                         placement: __VOBRES.pins[pin]['pop']
                        }
         $('.pin#'+pin).popover(options)
