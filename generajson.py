@@ -58,7 +58,6 @@ pins = {u'ESTADI OLIMPIC': 'estadi',
 wb = xlrd.open_workbook('dades.xls')
 for sheet in wb.sheets():
     if sheet.name in pins.keys():
-    #if sheet.name == 'TORRE COLLSEROLA':
         items_ca = []
         items_en = []
         items_es = []
@@ -137,19 +136,19 @@ for sheet in wb.sheets():
                                          'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[1]).groups(0),
                                          'class': getImageClass(thumbfilename),
                                          'type': 'video',
-                                         'url': row[5]
+                                         'url': row[6].split('&')[0].replace('watch?v?', 'v/')
                                          })
                         items_en.append({'thumb': thumbfilename,
                                          'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[3]).groups(0),
                                          'class': getImageClass(thumbfilename),
                                          'type': 'video',
-                                         'url': row[5]
+                                         'url': row[6].split('&')[0].replace('watch?v?', 'v/')
                                          })
                         items_es.append({'thumb': thumbfilename,
                                          'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[2]).groups(0),
                                          'class': getImageClass(thumbfilename),
                                          'type': 'video',
-                                         'url': row[5]
+                                         'url': row[6].split('&')[0].replace('watch?v?', 'v/')
                                          })
                 if 'serie' in row[5].lower():
                     savingserie = True
