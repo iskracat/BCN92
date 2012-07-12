@@ -2,7 +2,7 @@
 import re
 from PIL import Image
 
-ca = """01 
+textos = dict(ca = """01 
 L: La ronda Litoral al seu pas per Sant Adrià del Besòs. 
 A: S2_028_072.jpg / 14 de març de 1992
 D: 120626-7382.tif / 26 de juny de 2012
@@ -59,7 +59,7 @@ L: Platges de la Barceloneta
 A: S2_026-030.jpg / 16 de maig de 1990
 D: 120626-7590.tif / 26 de juny de 2012"""
 
-es = """01 
+,es = """01 
 L: La ronda Litoral a su paso por Sant Adrià del Besòs 
 A: S2_028_072.jpg / 14 de marzo de 1992
 D: 120626-7382.tif / 26 de junio de 2012
@@ -116,7 +116,7 @@ L: Playas de la Barceloneta
 A: S2_026-030.jpg / 16 de mayo de 1990
 D: 120626-7590.tif / 26 de junio del 2012"""
 
-en = """01 
+,en = """01 
 L:The Ronda Litoral on the stretch through Sant Adrià del Besòs 
 A: S2_028_072.jpg / 14 March 1992
 D: 120626-7382.tif / 26 June 2012
@@ -172,12 +172,12 @@ D:120626-7529.tif / 26 June 2012
 14
 L: Barceloneta Beaches
 A: S2_026-030.jpg / 16 May 1990
-D: 120626-7590.tif / 26 June 2012"""
+D: 120626-7590.tif / 26 June 2012""")
 
 
 NAV_TEMPLATE = """
                       <div class="%(active)snavitem" rel="%(num)s">
-                          <a href="#" title="%(title)s"><img src="images/miratges/thumbs/min_miratges_%(num)s.png"></a>
+                          <a href="#" title="%(title)s"><img src="%(prevfolder)simages/miratges/thumbs/min_miratges_%(num)s.png"></a>
                       </div>
 """
 
@@ -185,13 +185,13 @@ NAV_TEMPLATE = """
 ITEM_TEMPLATE = """
                           <div class="%(active)sitem" id="item-%(num)s"style="margin-left:%(margin)dpx;">
                               <div class="title" style="width:%(width)dpx">        
-                                  <a class="avans" href="images/miratges/%(num)s/a.jpg"><img src="img/descarregar_inactiu.png" target="_blank"></a>
+                                  <a class="avans" href="%(prevfolder)simages/miratges/%(num)s/a.jpg"><img src="%(prevfolder)simg/descarregar_inactiu.png" target="_blank"></a>
                                   <span>%(title)s</span>
-                                  <a class="despres" href="images/miratges/%(num)s/b.jpg"><img src="img/descarregar_inactiu.png" target="_blank"></a>
+                                  <a class="despres" href="%(prevfolder)simages/miratges/%(num)s/b.jpg"><img src="%(prevfolder)simg/descarregar_inactiu.png" target="_blank"></a>
                               </div>
                               <div class="parellaFotos" id="parella-%(num)s">
-                                  <div><img alt="before" src="images/miratges/%(num)s/a.jpg" style="width:%(width)dpx;height:%(height)dpx;"></div>
-                                  <div><img alt="after" src="images/miratges/%(num)s/b.jpg" style="width:%(width)dpx;height:%(height)dpx;"></div>
+                                  <div><img alt="before" src="%(prevfolder)simages/miratges/%(num)s/a.jpg" style="width:%(width)dpx;height:%(height)dpx;"></div>
+                                  <div><img alt="after" src="%(prevfolder)simages/miratges/%(num)s/b.jpg" style="width:%(width)dpx;height:%(height)dpx;"></div>
                               </div>  
                               <div class="peus" style="width:%(width)dpx">
                                   <span class="avans">%(datea)s</span>
@@ -214,21 +214,27 @@ def getImageSize(filename):
 navs = ''
 items = ''
 
+for language in ['ca', 'es', 'en']:
+    navs = ''
+    items = ''
 
-for item in re.findall(r'(\d{2})\s*\nL:\s*(.*?)\nA:\s*.*?\s\/\s(.*?)\nD:\s*.*?\s\/\s(.*?)(\n|$)', ca, re.MULTILINE | re.DOTALL):
-    item_values = dict(zip(PARTS, item[:-1]))
-    width, height = getImageSize('images/miratges/%(num)s/a.jpg' % item_values)
-    item_values['width'] = width
-    item_values['height'] = height
-    item_values['margin'] = width / 2
-    item_values['active'] = item_values['num'] == '01' and 'active ' or ''
-    navs += NAV_TEMPLATE % item_values
-    items += ITEM_TEMPLATE % item_values
+    langfolder = language in ['en', 'es'] and language + '/' or ''
+    prevfolder = language in ['en', 'es'] and '../' or ''
+    for item in re.findall(r'(\d{2})\s*\nL:\s*(.*?)\nA:\s*.*?\s\/\s(.*?)\nD:\s*.*?\s\/\s(.*?)(\n|$)', textos[language], re.MULTILINE | re.DOTALL):
+        item_values = dict(zip(PARTS, item[:-1]))
+        width, height = getImageSize('images/miratges/%(num)s/a.jpg' % item_values)
+        item_values['width'] = width
+        item_values['height'] = height
+        item_values['margin'] = width / 2
+        item_values['active'] = item_values['num'] == '01' and 'active ' or ''
+        item_values['prevfolder'] = prevfolder
+        navs += NAV_TEMPLATE % item_values
+        items += ITEM_TEMPLATE % item_values
 
 
-html = open('content/miratges/index.html').read()
-match = re.search(r'^(.*?)(<!-- ITEMS SLOT -->\s*\n)(.*?)(\n\s*<!-- END ITEMS SLOT -->)(.*?)(<!-- START NAV ITEMS -->\s*\n)(.*?)(\n\s*<!-- END NAV ITEMS -->)(.*)', html, re.DOTALL | re.MULTILINE)
-html2 = list(match.groups())
-html2[2] = items
-html2[6] = navs
-open('content/miratges/index.html', 'w').write(''.join(html2))
+    html = open(langfolder + 'content/miratges/index.html').read()
+    match = re.search(r'^(.*?)(<!-- ITEMS SLOT -->\s*\n)(.*?)(\n\s*<!-- END ITEMS SLOT -->)(.*?)(<!-- START NAV ITEMS -->\s*\n)(.*?)(\n\s*<!-- END NAV ITEMS -->)(.*)', html, re.DOTALL | re.MULTILINE)
+    html2 = list(match.groups())
+    html2[2] = items
+    html2[6] = navs
+    open(langfolder + 'content/miratges/index.html', 'w').write(''.join(html2))
