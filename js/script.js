@@ -10,7 +10,7 @@ function doActionsForHide($sectionGroup) {
     var currentId = $sectionGroup.attr('id')
 
     if (currentId === 'home') {
-        $('#videoportada embed').pauseVideo()            
+        $('#videoportada embed').get(0).pauseVideo()            
         $('#videoportada').hide()    
     }
 
@@ -35,7 +35,7 @@ function doActionsForShow($sectionGroup) {
         $('#impactes .accordion-toggle h3.main').text('Les petjades de la transformació')
         $('#impactes .accordion-toggle h3.sub').text('')
         $('#videoportada').show()    
-        $('#videoportada embed').playVideo()            
+        $('#videoportada embed').get(0).playVideo()            
     }
 
     if (currentId === 'miratges') {
@@ -429,7 +429,7 @@ $(document).ready( function() {
 
  function onYouTubePlayerReady(playerId) {
       console.log('youtube')
-      testimoniplayer = document.getElementById("s");
+
     }
 
 function recalculatePinPositions() {
@@ -493,7 +493,11 @@ function getAvailableSize(visibleSection) {
 
 
 function loadImpactesPage(page) {
-    $.get('content/impactes/'+page+'/data.json', function(data) {
+
+    var url = 'content/impactes/'+page+'.json'
+    var language = $('html').attr('lang') 
+    language_folder = language!='ca/' ? language : ''
+    $.get(url, function(data) {
         var available = data
         var numi = available.length
         var $container = $('#impactes .carousel-inner')
