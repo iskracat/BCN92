@@ -57,7 +57,9 @@ function doActionsForShow($sectionGroup) {
                 $($images.get(0)).css({width:image_width, height:image_height})
                 $($images.get(1)).css({width:image_width, height:image_height})
                 $miratge.css({'margin-left':Math.floor((1170 - image_width) / 2)})
-                $parella.beforeAfter( {showFullLinks:false})            
+                var language = $('html').attr('lang') 
+                var lf = language!='ca' ? '../' : ''
+                $parella.beforeAfter( {showFullLinks:false, imagePath:lf+'img/'})            
             }
 
         }
@@ -67,7 +69,10 @@ function doActionsForShow($sectionGroup) {
     if (currentId === 'testimonis') {
         $('#testimonis .video').css({height: getAvailableSize('testimonis') - 200})
         playingvideo = $('#videotestimoni embed').get(0)
-        if (playingvideo) { playingvideo.playVideo() }
+        if (playingvideo) { playingvideo.playVideo() 
+        } else {
+            $('#testimonis .firsttime').trigger('click')
+        }
 
     }
 }
@@ -359,6 +364,12 @@ $(document).ready( function() {
         event.stopImmediatePropagation()
 
         var $testimoni = $(this)
+        if ($testimoni.hasClass('firsttime')) {
+            $testimoni.toggleClass('firsttime', false)
+            var autoplay = 0
+        } else {
+            var autoplay = 1
+        }
         var $video = $('#testimonis .video')
         var video = $testimoni.attr('rel')
         var height = $video.height()-40
@@ -368,10 +379,10 @@ $(document).ready( function() {
         var videotag = '\
 <div style="width:'+width+'px;height:'+height+'px; margin:'+mtop+'px auto;">\
 <object id="videotestimoni" width="'+width+'" height="'+height+'">\
-<param name="movie" value="'+video+'\?version=3&amp;hl=ca_ES&amp;autoplay=1&enablejsapi=1'+hd+'"></param>\
+<param name="movie" value="'+video+'\?version=3&amp;hl=ca_ES&amp;autoplay='+autoplay+'&enablejsapi=1'+hd+'"></param>\
 <param name="allowFullScreen" value="true"></param>\
 <param name="allowscriptaccess" value="always"></param>\
-    <embed src="'+video+'?version=3&amp;hl=ca_ES&amp;autoplay=1&enablejsapi=1'+hd+'" \
+    <embed src="'+video+'?version=3&amp;hl=ca_ES&amp;autoplay='+autoplay+'&enablejsapi=1'+hd+'" \
            type="application/x-shockwave-flash" \
            width="'+width+'" height="'+height+'" \
            allowscriptaccess="always" allowfullscreen="true"></embed></object></div>'
@@ -561,6 +572,7 @@ function loadImpactesPage(page) {
         $("#"+page+" .impacte.single a").fancybox({ helpers    : { title : { type : 'inside' }, 
                                                     overlay    : { css: {opacity:0.8}} },
                                                     closeBtn   : false,
+                                                    arrows     : false,
                                                     afterShow : function() {
                                                              $('.fancybox-outer').prepend(actionbuttons)
                                                          }
@@ -570,6 +582,7 @@ function loadImpactesPage(page) {
                                                                 title : { type : 'inside' }, 
                                                     overlay    : { css: {opacity:0.8}} },
                                                     closeBtn   : false,
+                                                    arrows     : false,
                                                     afterShow : function() {
                                                              $('.fancybox-outer').prepend(actionbuttons)
                                                          }
