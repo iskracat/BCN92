@@ -3,10 +3,13 @@ import json
 import os
 from PIL import Image
 import xlrd
-import re 
+import re
+
 
 URL_PART = 'content/impactes'
-BASE_FOLDER = '/var/www/BCN922/%s' % URL_PART
+BASE_FOLDER = '/var/www/BCN922'
+IMAGES_FOLDER = '/var/www/BCN922/images/impactes'
+IMAGES_URL_PART = 'images/impactes'
 CLASSES = {(230, 230): 'rrcc',
            (110, 230): 'rrc',
            (230, 110): 'rcc',
@@ -15,8 +18,8 @@ CLASSES = {(230, 230): 'rrcc',
 
 
 def getExistingImage(folder, imagename):
-    filename = '%s/%s/%s' % (BASE_FOLDER, folder, imagename)
-    url = '%s/%s/%s' % (URL_PART, folder, imagename)
+    filename = '%s/%s/%s' % (IMAGES_FOLDER, folder, imagename)
+    url = '%s/%s/%s' % (IMAGES_URL_PART, folder, imagename)
     if os.path.exists(filename + '.jpg'):
         url += '.jpg'
     elif os.path.exists(filename + '.JPG'):
@@ -56,25 +59,46 @@ wb = xlrd.open_workbook('dades.xls')
 for sheet in wb.sheets():
     if sheet.name in pins.keys():
     #if sheet.name == 'TORRE COLLSEROLA':
-        items = []
+        items_ca = []
+        items_en = []
+        items_es = []
         folder = pins[sheet.name]
         savingserie = False
-        serie = []
+        serie_ca = []
+        serie_en = []
+        serie_es = []
         seriecount = 1
         for i in range(1, sheet.nrows):
             row = sheet.row_values(i)
             if row[0] != '':
                 if savingserie and not 'serie' in row[5].lower():
                     savingserie = False
-                    thumbname = '%s_ser%d_thu' % (serie[0][0], seriecount)
+                    thumbname = '%s_ser%d_thu' % (serie_ca[0][0], seriecount)
                     thumbfilename = getExistingImage(folder, thumbname)
-                    items.append({'thumb': thumbfilename,
-                                  'class': getImageClass(thumbfilename),
-                                  'type': 'serie',
-                                  'id': '%s_ser_%d' % (folder, seriecount),
-                                  'items': [{'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie)]
-                                  })
-                    serie = []
+                    items_ca.append({'thumb': thumbfilename,
+                                     'class': getImageClass(thumbfilename),
+                                     'type': 'serie',
+                                     'id': '%s_ser_%d' % (folder, seriecount),
+                                     'items': [{'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie_ca)]
+                                     })
+                    items_en.append({'thumb': thumbfilename,
+                                     'class': getImageClass(thumbfilename),
+                                     'type': 'serie',
+                                     'id': '%s_ser_%d' % (folder, seriecount),
+                                     'items': [{'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie_en)]
+                                     })
+
+                    items_es.append({'thumb': thumbfilename,
+                                     'class': getImageClass(thumbfilename),
+                                     'type': 'serie',
+                                     'id': '%s_ser_%d' % (folder, seriecount),
+                                     'items': [{'image':getExistingImage(folder, '%s_ser%d_%d' % (item[0], seriecount, num + 1)), 'footer':item[1]} for num, item in enumerate(serie_es)]
+                                     })
+
+                    serie_ca = []
+                    serie_en = []
+                    serie_es = []
+
                     seriecount += 1
 
                 if not 'serie' in row[5].lower() and not 'VIDEO' in row[0].upper() and not row[0][0] in ['u', 'v']:
@@ -83,12 +107,25 @@ for sheet in wb.sheets():
                     imagename = '%s_fot' % row[0]
                     imagefilename = getExistingImage(folder, imagename)
                     if thumbfilename:
-                        items.append({'thumb': thumbfilename,
-                                      'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[1]).groups(0),
-                                      'image': imagefilename,
-                                      'class': getImageClass(thumbfilename),
-                                      'type': 'single'
-                                      })
+                        items_ca.append({'thumb': thumbfilename,
+                                        'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[1]).groups(0),
+                                        'image': imagefilename,
+                                        'class': getImageClass(thumbfilename),
+                                        'type': 'single'
+                                        })
+                        items_en.append({'thumb': thumbfilename,
+                                        'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[3]).groups(0),
+                                        'image': imagefilename,
+                                        'class': getImageClass(thumbfilename),
+                                        'type': 'single'
+                                        })
+                        items_es.append({'thumb': thumbfilename,
+                                         'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[2]).groups(0),
+                                         'image': imagefilename,
+                                         'class': getImageClass(thumbfilename),
+                                         'type': 'single'
+                                         })
+
                 if not 'serie' in row[5].lower() and ('VIDEO' in row[0].upper() or row[0][0] in ['u', 'v']):
                     name = row[0].split('/')[0].strip()
                     if name == 'VIDEO':
@@ -96,14 +133,30 @@ for sheet in wb.sheets():
                     thumbname = '%s_vid_thu' % name
                     thumbfilename = getExistingImage(folder, thumbname)
                     if thumbfilename:
-                        items.append({'thumb': thumbfilename,
-                                      'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[1]).groups(0),
-                                      'class': getImageClass(thumbfilename),
-                                      'type': 'video',
-                                      'url': row[5]
-                                      })
+                        items_ca.append({'thumb': thumbfilename,
+                                         'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[1]).groups(0),
+                                         'class': getImageClass(thumbfilename),
+                                         'type': 'video',
+                                         'url': row[5]
+                                         })
+                        items_en.append({'thumb': thumbfilename,
+                                         'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[3]).groups(0),
+                                         'class': getImageClass(thumbfilename),
+                                         'type': 'video',
+                                         'url': row[5]
+                                         })
+                        items_es.append({'thumb': thumbfilename,
+                                         'footer': re.search(r'(.*?)\s*\(?\w*\)?$', row[2]).groups(0),
+                                         'class': getImageClass(thumbfilename),
+                                         'type': 'video',
+                                         'url': row[5]
+                                         })
                 if 'serie' in row[5].lower():
                     savingserie = True
-                    serie.append((row[0], re.search(r'(.*?)\s*\(?\w*\)?$', row[1]).groups(0),))
+                    serie_ca.append((row[0], re.search(r'(.*?)\s*\(?\w*\)?$', row[1]).groups(0),))
+                    serie_en.append((row[0], re.search(r'(.*?)\s*\(?\w*\)?$', row[3]).groups(0),))
+                    serie_es.append((row[0], re.search(r'(.*?)\s*\(?\w*\)?$', row[2]).groups(0),))
 
-        open('%s/%s/data.json' % (BASE_FOLDER, folder), 'w').write(json.dumps(items))
+        open('%s/%s/%s.json' % (BASE_FOLDER, URL_PART, folder), 'w').write(json.dumps(items_ca))
+        open('%s/en/%s/%s.json' % (BASE_FOLDER, URL_PART, folder), 'w').write(json.dumps(items_en))
+        open('%s/es/%s/%s.json' % (BASE_FOLDER, URL_PART, folder), 'w').write(json.dumps(items_es))
