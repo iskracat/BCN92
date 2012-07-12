@@ -531,7 +531,7 @@ function loadImpactesPage(page) {
             var impacte = data[i]
             var pos = getAvailablePos(impacte.class)
             if (impacte.type=='single') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a href="'+lf+impacte.image+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
-            if (impacte.type=='video') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="http://youtu.be/QFAAI0NZz-w" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
+            if (impacte.type=='video') $wrapper.append('<div class="impacte '+impacte.type+' '+impacte.class+'" style="top:'+pos.r+'px;left:'+pos.c+'px"><a rel="media-gallery" href="'+impacte.url+'" title="'+impacte.footer+'"><img src="'+lf+impacte.thumb+'"></a><i class="emblem"></i></div>')
             if (impacte.type=='serie') {
                 var serielinks = ''
                 for (l=1;l<impacte.items.length;l++) {
@@ -550,9 +550,25 @@ function loadImpactesPage(page) {
             $goright.hide()
         }
 
-        $("#"+page+" .impacte.single a").fancybox({ helpers : { title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
-        $("#"+page+" .impacte.video a").fancybox({ helpers : { media: {}, title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
-        $("#"+page+" .impacte.serie a").fancybox({ prevEffect: 'elastic', nextEffect: 'elastic', helpers : { thumbs: { width: 50, height:50}, title : { type : 'inside' }, overlay : { css: {opacity:0.8}} } });
+        
+        $("#"+page+" .impacte.single a").fancybox({ helpers    : { title : { type : 'inside' }, 
+                                                    overlay    : { css: {opacity:0.8}} },
+                                                    afterLoad  : function() {
+                                                        
+                                                    } 
+                                                 });
+
+        $("#"+page+" .impacte.video a"). fancybox({ helpers    : { media: {}, 
+                                                                title : { type : 'inside' }, 
+                                                    overlay    : { css: {opacity:0.8}} } 
+                                                 });
+
+        $("#"+page+" .impacte.serie a"). fancybox({ prevEffect : 'none', 
+                                                    nextEffect : 'none', 
+                                                    helpers    : { thumbs: { width: 50, height:50}, 
+                                                                title : { type : 'inside' }, 
+                                                    overlay    : { css: {opacity:0.8}} } 
+                                                 });
 
     }, 'json')
     $('#impactes .accordion-toggle h3.main').text(__VOBRES.pins[page]['zone'])
