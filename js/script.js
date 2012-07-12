@@ -12,6 +12,11 @@ function doActionsForHide($sectionGroup) {
     if (currentId === 'home') {
         $('#videoportada').hide()    
     }
+
+    if (currentId === 'testimonis') {
+        playingvideo = $('#videotestimoni embed').get(0)
+        if (playingvideo) { playingvideo.pauseVideo() }
+    }
 }
 
 
@@ -58,7 +63,10 @@ function doActionsForShow($sectionGroup) {
     }
 
     if (currentId === 'testimonis') {
-        $('#testimonis .video').css({height: getAvailableSize('miratges') - 200})
+        $('#testimonis .video').css({height: getAvailableSize('testimonis') - 200})
+        playingvideo = $('#videotestimoni embed').get(0)
+        if (playingvideo) { playingvideo.playVideo() }
+
     }
 }
 
@@ -351,16 +359,17 @@ $(document).ready( function() {
         var $testimoni = $(this)
         var $video = $('#testimonis .video')
         var video = $testimoni.attr('rel')
-        var width = 500
-        var height = 400
-        var mtop = ($video.height() - height ) /2
+        var height = $video.height()-40
+        var width = height*1.78
+        var mtop = 20
+        var hd = height>500 ? '&vq=hd720' : ''
         var videotag = '\
 <div style="width:'+width+'px;height:'+height+'px; margin:'+mtop+'px auto;">\
-<object id="videoportada" width="'+width+'" height="'+height+'">\
-<param name="movie" value="'+video+'\?version=3&amp;hl=ca_ES&amp;autoplay=1"></param>\
+<object id="videotestimoni" width="'+width+'" height="'+height+'">\
+<param name="movie" value="'+video+'\?version=3&amp;hl=ca_ES&amp;autoplay=1&enablejsapi=1'+hd+'"></param>\
 <param name="allowFullScreen" value="true"></param>\
 <param name="allowscriptaccess" value="always"></param>\
-    <embed src="'+video+'?version=3&amp;hl=ca_ES&amp;autoplay=1" \
+    <embed src="'+video+'?version=3&amp;hl=ca_ES&amp;autoplay=1&enablejsapi=1'+hd+'" \
            type="application/x-shockwave-flash" \
            width="'+width+'" height="'+height+'" \
            allowscriptaccess="always" allowfullscreen="true"></embed></object></div>'
@@ -416,6 +425,10 @@ $(document).ready( function() {
 
 }) // End jQuery ready wrapper
 
+ function onYouTubePlayerReady(playerId) {
+      console.log('youtube')
+      testimoniplayer = document.getElementById("s");
+    }
 
 function recalculatePinPositions() {
     var pins = $('#map .pin')
