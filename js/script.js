@@ -395,25 +395,31 @@ $(document).ready( function() {
 
     __VOBRES = {status: {},
                 loaded: {home:true},
-                pins :{ estadi:      {w:466, h:534, pop:'right',  title:'Estadi olímpic',       zone:'ANELLA OLÍMPICA'},
-                        palau:       {w:437, h:532, pop:'bottom', title:'Palau Sant Jordi',     zone:'ANELLA OLÍMPICA'},
-                        picornell:   {w:457, h:502, pop:'top',    title:'Piscines Picornell',   zone:'ANELLA OLÍMPICA'},
-                        calatrava:   {w:426, h:495, pop:'left',   title:'Torre Calatrava',      zone:'ANELLA OLÍMPICA'},
-                        ronda:       {w:372, h:547, pop:'left',   title:'Ronda Litoral',        zone:'RONDES'},
-                        platges:     {w:768, h:574, pop:'right',  title:'Platjes de Barcelona', zone:'FRONT MARÍTIM'},
-                        portolimpic: {w:652, h:575, pop:'left',   title:'Port olímpic',         zone:'FRONT MARÍTIM'},
-                        portvell:    {w:584, h:553, pop:'top',    title:'Port Vell',            zone:'FRONT MARÍTIM'},
-                        torres:      {w:669, h:542, pop:'top',    title:'Torres mapfre',        zone:'FRONT MARÍTIM'},
-                        vila:        {w:690, h:560, pop:'right',  title:'Vila olímpica',        zone:'VILA OLÍMPICA'},
-                        cinturo:     {w:621, h:277, pop:'left',   title:'Segon cinturó',        zone:'RONDES'},
-                        collserola:  {w:553, h:203, pop:'bottom', title:'Torre de collserola',  zone:'TORRE DE COLLSEROLA'}
+                pins :{ estadi:      {w:466, h:534, pop:'right'},
+                        palau:       {w:437, h:532, pop:'bottom'},
+                        picornell:   {w:457, h:502, pop:'top'},
+                        calatrava:   {w:426, h:495, pop:'left'},
+                        ronda:       {w:372, h:547, pop:'left'},
+                        platges:     {w:768, h:574, pop:'right'},
+                        portolimpic: {w:652, h:575, pop:'left'},
+                        portvell:    {w:584, h:553, pop:'top'},
+                        torres:      {w:669, h:542, pop:'top'},
+                        vila:        {w:690, h:560, pop:'right'},
+                        cinturo:     {w:621, h:277, pop:'left'},
+                        collserola:  {w:553, h:203, pop:'bottom'}
                       }
                }
+
+
 
     // instantiate pin popovers
     var pinnames = ['estadi','palau' ,'picornell' ,'calatrava' ,'ronda' ,'platges' ,'portolimpic' ,'portvell' ,'torres' ,'vila' ,'cinturo' ,'collserola']
     for (p=0;p<pinnames.length;p++) {
         var pin = pinnames[p]
+        var $pin = $('.pin#'+pin)
+        var $pina = $pin.find('a')
+        __VOBRES.pins[pin].title = $pina.attr('title')
+        __VOBRES.pins[pin].zone = $pina.attr('zone')
         var options = {     title: '<span>'+__VOBRES.pins[pin]['zone']+'</span><br/>'+__VOBRES.pins[pin]['title'],
                         placement: __VOBRES.pins[pin]['pop']
                        }
@@ -495,7 +501,7 @@ function getAvailableSize(visibleSection) {
 function loadImpactesPage(page) {
 
     var language = $('html').attr('lang') 
-    lf = language!='ca/' ? '../' : ''
+    var lf = language!='ca' ? '../' : ''
     var url = 'content/impactes/'+page+'.json'    
     $.get(url, function(data) {
         var available = data

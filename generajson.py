@@ -57,7 +57,7 @@ pins = {u'ESTADI OLIMPIC': 'estadi',
 
 wb = xlrd.open_workbook('dades.xls')
 for sheet in wb.sheets():
-    if sheet.name in pins.keys():
+    if sheet.name in pins.keys() and sheet.name not in ['ESTADI OLIMPIC','RONDA LITORAL']:
     #if sheet.name == 'TORRE COLLSEROLA':
         items_ca = []
         items_en = []
