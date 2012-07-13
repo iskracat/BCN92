@@ -449,7 +449,7 @@ $(document).ready( function() {
         var $pina = $pin.find('a')
         __VOBRES.pins[pin].title = $pina.attr('title')
         __VOBRES.pins[pin].zone = $pina.attr('zone')
-        var options = {     title: '<span>'+__VOBRES.pins[pin]['zone']+'</span><br/>'+__VOBRES.pins[pin]['title'],
+        var options = {     title: __VOBRES.pins[pin]['title'],
                         placement: __VOBRES.pins[pin]['pop']
                        }
         $('.pin#'+pin).popover(options)
