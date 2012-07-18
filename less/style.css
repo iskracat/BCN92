@@ -5496,7 +5496,7 @@ h2:focus {
   position: relative;
   background-image: url('../img/textura_fons_titols.gif');
   background-repeat: repeat;
-  padding: 8px 30px 12px 60px;
+  padding: 0px 30px 12px 60px;
   border-bottom: 1px solid #333333;
 }
 .accordion-group .accordion-heading a {
@@ -5506,7 +5506,7 @@ h2:focus {
   font-family: "InterstateBoldCondensed", "Verdana";
   font-weight: normal;
   color: #fecd02;
-  font-size: 30px;
+  font-size: 16px;
   line-height: 30px;
 }
 .accordion-group .accordion-heading h3 {
@@ -5523,7 +5523,7 @@ h2:focus {
 }
 .accordion-group#impactes .accordion-heading {
   border-top: 1px solid #333333;
-  height: 29px;
+  height: 17px;
 }
 .athome #impactes .accordion-heading {
   height: 64px;
