@@ -5546,19 +5546,19 @@ h2:focus {
 i.fletxa {
   background-image: url('../img/fletxa_desplega_inactiva.png');
   background-repeat: repeat-none;
-  width: 34px;
-  height: 33px;
+  width: 20px;
+  height: 20px;
   display: block;
   float: right;
   position: absolute;
-  top: 9px;
+  top: 5px;
   right: 20px;
 }
 i.fletxa:hover {
   background-image: url('../img/fletxa_desplega_activa.png');
 }
 .visible i.fletxa {
-  top: 15px;
+  top: 11px;
   background-image: url('../img/fletxa_plega_inactiva.png');
 }
 .visible i.fletxa:hover {
