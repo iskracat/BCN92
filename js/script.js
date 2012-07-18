@@ -521,8 +521,8 @@ function recalculatePinPosition(pin) {
 
 function getAvailableSize(visibleSection) {
     var total = 0
-    var headers_at_home = 200
-    var headers_at_sections = 130
+    var headers_at_home = 198
+    var headers_at_sections = 105
 
     //216
 

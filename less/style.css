@@ -5686,11 +5686,13 @@ i.fletxa:hover {
 }
 .accordion-group.visible#miratges h3 {
   margin-left: 230px;
-  width: 180px;
+  width: 300px;
+  min-height: 46px;
 }
 .accordion-group.visible#testimonis h3 {
   margin-left: 260px;
-  width: 180px;
+  width: 300px;
+  min-height: 46px;
 }
 .navbar .nav {
   font-family: "InterstateRegular", "Verdana";
