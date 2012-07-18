@@ -66,7 +66,7 @@ function doActionsForShow($sectionGroup) {
                 var $images = $parella.find('img')
                 $($images.get(0)).css({width:image_width, height:image_height})
                 $($images.get(1)).css({width:image_width, height:image_height})
-                $miratge.css({'margin-left':Math.floor((window.innerWidth - image_width) / 2)})
+                $parella.css({'margin-left':Math.floor((window.innerWidth - image_width) / 2)})
                 var language = $('html').attr('lang') 
                 var lf = language!='ca' ? '../' : ''
                 $parella.beforeAfter( {showFullLinks:false, imagePath:lf+'img/'})            
