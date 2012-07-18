@@ -60,17 +60,22 @@ function doActionsForShow($sectionGroup) {
                 var height = $parella.find('img').height()
                 var prop = width / height
                 var image_width = Math.floor(image_height * prop)
+                if (window.innerWidth>1170) {
+                    var amplada_total = 1170;
+                } else {
+                    var amplada_total = window.innerWidth;
+                }
                 if (image_width + 110 > 650) {
                     var width_title_miratge = image_width + 110;
                 } else {
                     var width_title_miratge = 650;
                 }
-                $miratge.find('.title').css({width:width_title_miratge, 'margin-left':Math.floor((window.innerWidth - width_title_miratge)/2)})
-                $miratge.find('.peus').css({width:400, 'margin-left':Math.floor((window.innerWidth - 400)/2)})
+                $miratge.find('.title').css({width:width_title_miratge, 'margin-left':Math.floor((amplada_total - width_title_miratge)/2)})
+                $miratge.find('.peus').css({width:400, 'margin-left':Math.floor((amplada_total - 400)/2)})
                 var $images = $parella.find('img')
                 $($images.get(0)).css({width:image_width, height:image_height})
                 $($images.get(1)).css({width:image_width, height:image_height})
-                $parella.css({'margin-left':Math.floor((window.innerWidth - image_width) / 2)})
+                $parella.css({'margin-left':Math.floor((amplada_total - image_width) / 2)})
                 var language = $('html').attr('lang') 
                 var lf = language!='ca' ? '../' : ''
                 $parella.beforeAfter( {showFullLinks:false, imagePath:lf+'img/'})            
