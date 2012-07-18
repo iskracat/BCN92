@@ -61,8 +61,8 @@ function doActionsForShow($sectionGroup) {
                 var prop = width / height
                 var image_width = Math.floor(image_height * prop)
 
-                $miratge.find('.title').css({width:800})
-                $miratge.find('.peus').css({width:400})
+                $miratge.find('.title').css({width:800, 'margin-left':Math.floor((window.innerWidth - 800)/2)})
+                $miratge.find('.peus').css({width:400, 'margin-left':Math.floor((window.innerWidth - 400)/2)})
                 var $images = $parella.find('img')
                 $($images.get(0)).css({width:image_width, height:image_height})
                 $($images.get(1)).css({width:image_width, height:image_height})
