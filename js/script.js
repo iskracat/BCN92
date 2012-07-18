@@ -51,7 +51,7 @@ function doActionsForShow($sectionGroup) {
     if (currentId === 'miratges') {
         if (!__VOBRES.loaded[currentId]) {
             var miratges = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14']
-            var image_height = getAvailableSize('miratges') - 130
+            var image_height = getAvailableSize('miratges') - 140
             for (m=0;m<miratges.length;m++) {
 
                 $miratge = $('#item-'+miratges[m])
