@@ -5768,9 +5768,11 @@ i.fletxa:hover {
 }
 #carouselWrapper #miratgesCarousel .carousel-inner .item .title .despres {
   right: 0px;
+  top: 70px;
 }
 #carouselWrapper #miratgesCarousel .carousel-inner .item .title .avans {
   left: 0px;
+  top: 70px;
 }
 #carouselWrapper #miratgesCarousel .carousel-inner .item .peus {
   position: relative;
@@ -5790,7 +5792,7 @@ i.fletxa:hover {
   position: absolute;
   left: -25px;
   width: 7px;
-  height: 100px;
+  height: 61px;
   background-image: url(../img/fletxa_esquerra_central_inactiu.png);
   background-repeat: no-repeat;
   background-position: left center;
@@ -5804,7 +5806,7 @@ i.fletxa:hover {
   position: absolute;
   right: -25px;
   width: 7px;
-  height: 100px;
+  height: 61px;
   background-image: url(../img/fletxa_dreta_central_inactiu.png);
   background-repeat: no-repeat;
   background-position: right center;
@@ -5826,11 +5828,11 @@ i.fletxa:hover {
 #carouselNavigationContainer #carouselNavigation .wrapper .navitem {
   float: left;
   width: 102px;
-  margin: 20px 20px 0 0;
+  margin: 0px 20px 0 0;
   padding: 5px;
 }
 #carouselNavigationContainer #carouselNavigation .wrapper .navitem.active {
-  margin: 18px 18px 0 0;
+  margin: 0px 18px 0 0;
   border: 2px solid #888;
   -webkit-transition-property: border;
   -webkit-transition-duration: 0.2s;

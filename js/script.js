@@ -51,7 +51,7 @@ function doActionsForShow($sectionGroup) {
     if (currentId === 'miratges') {
         if (!__VOBRES.loaded[currentId]) {
             var miratges = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14']
-            var image_height = getAvailableSize('miratges') - 200
+            var image_height = getAvailableSize('miratges') - 150
             for (m=0;m<miratges.length;m++) {
 
                 $miratge = $('#item-'+miratges[m])
@@ -60,8 +60,12 @@ function doActionsForShow($sectionGroup) {
                 var height = $parella.find('img').height()
                 var prop = width / height
                 var image_width = Math.floor(image_height * prop)
-
-                $miratge.find('.title').css({width:650, 'margin-left':Math.floor((window.innerWidth - 650)/2)})
+                if (image_width + 110 > 650) {
+                    var width_title_miratge = image_width + 110;
+                } else {
+                    var width_title_miratge = 650;
+                }
+                $miratge.find('.title').css({width:width_title_miratge, 'margin-left':Math.floor((window.innerWidth - width_title_miratge)/2)})
                 $miratge.find('.peus').css({width:400, 'margin-left':Math.floor((window.innerWidth - 400)/2)})
                 var $images = $parella.find('img')
                 $($images.get(0)).css({width:image_width, height:image_height})
