@@ -203,6 +203,7 @@ h2:focus {
 
 .accordion {
     margin-bottom:0px;
+    width:auto;
 
 }
 
@@ -231,8 +232,8 @@ h2:focus {
             font-family: "InterstateRegular", "Verdana";
             font-weight:normal;
             color:white;
-            font-size:20px;
-            line-height:20px;
+            font-size:18px;
+            line-height:22px;
             display:none;
 
         }
@@ -304,8 +305,8 @@ i.fletxa {
 #accordion2.athome {
     .accordion-heading {
         h2 {
-            font-size:45px;
-            line-height:45px;
+            font-size:35px;
+            line-height:42px;
         }
         h3 {
             display:block;
@@ -396,7 +397,7 @@ i.fletxa {
                                 background-position: 20px center;
                                 display:block; float:left; padding: 0px;
                                 width:45px; height:38px;
-                                margin:5px 0px 0px 15px;
+                                margin:5px 0px 0px 5px;
                                 border-left:1px solid @grisclar;
                                 &.active    { background-image: url(../img/fletxa_esquerra.png); }
                               }
@@ -404,7 +405,7 @@ i.fletxa {
                                 background-repeat: no-repeat;
                                 background-position: 10px center;
                                 display:block; float:left; padding: 0px;
-                                width:55px; height:38px;
+                                width:50px; height:38px;
                                 margin:5px 0px 0px 0px;
                                 border-right:1px solid @grisclar;
                                 &.active { background-image: url(../img/fletxa_dreta.png); }                        
@@ -415,7 +416,7 @@ i.fletxa {
                                 border-right:1px solid @grisclar;
                                 display:block;
                                 float:left;                                
-                                width:108px; height:38px;
+                                width:90px; height:38px;
                                 margin:5px 0px 0px 0px;
                                 &.active    { background-image: url(../img/boto_mapa.png); }                                
                               }
@@ -751,3 +752,18 @@ i.fletxa {
   #impactes .span10 {width:950px;}
   
 }
+
+@media (max-width: 768px) {
+#impactes .span10 { width: 600px;}
+    #carouselNavigationContainer {
+       .goright, .goleft { width:14px;}
+     }    
+
+
+}
+
+@media (max-width: 1024px) {
+    #carouselNavigationContainer {
+       .goright, .goleft { width:14px;}
+     }    
+  }  
