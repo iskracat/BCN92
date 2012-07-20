@@ -5490,6 +5490,7 @@ i.fletxa:hover {
 }
 .accordion-group.visible#impactes #map.dissolve {
   opacity: 0;
+  height: 0;
   -webkit-transition-property: opacity;
   -webkit-transition-duration: 1s;
   -webkit-transition-timing-function: ease-in-out;
