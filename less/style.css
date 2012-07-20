@@ -5170,7 +5170,8 @@ body {
   top: 50px;
 }
 .link-arxiu {
-  padding-top: 5px;
+  display: inline;
+  vertical-align: middle;
 }
 .actions {
   height: 50px;
