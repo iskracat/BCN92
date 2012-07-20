@@ -532,7 +532,7 @@ function getAvailableSize(visibleSection) {
     if (visibleSection==='home') {total += headers_at_home}
     else  {total += headers_at_sections}  
 
-    //if (visibleSection==='impactes') {total += 37}
+    if (visibleSection==='impactes') {total += 57}
     
     // Calculate available size by substracting occuped from viewport size
     var window_height = $(window).height()
