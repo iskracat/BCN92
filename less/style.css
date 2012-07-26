@@ -5331,7 +5331,7 @@ h2:focus {
 #home .accordion-inner object {
   border: 20px solid black;
   position: absolute;
-  top: 50px;
+  top: 23px;
   right: 50px;
   z-index: 0;
 }
