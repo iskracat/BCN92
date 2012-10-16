@@ -452,7 +452,7 @@ $(document).ready( function() {
 
 
     // instantiate pin popovers
-    var pinnames = ['estadi','palau' ,'picornell' ,'calatrava' ,'ronda' ,'platges' ,'portolimpic' ,'portvell' ,'torres' ,'vila' ,'cinturo' ,'collserola']
+    var pinnames = ['estadi','palau' ,'picornell' ,'calatrava' ,'ronda' ,'platges' ,'portolimpic' ,'portvell' ,'torres' ,'vila' ,'cinturo' ,'collserola', 'valldhebron']
     for (p=0;p<pinnames.length;p++) {
         var pin = pinnames[p]
         var $pin = $('.pin#'+pin)
