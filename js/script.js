@@ -443,7 +443,8 @@ $(document).ready( function() {
                         torres:      {w:669, h:542, pop:'top'},
                         vila:        {w:690, h:560, pop:'right'},
                         cinturo:     {w:621, h:277, pop:'left'},
-                        collserola:  {w:553, h:203, pop:'bottom'}
+                        collserola:  {w:553, h:203, pop:'bottom'},
+                        valldhebron: {w:715, h:260, pop:'right'}
                       },
                 petjades_title :$('#impactes h3.main').text()
                }
