@@ -7,8 +7,8 @@ import re
 
 
 URL_PART = 'content/impactes'
-BASE_FOLDER = '/var/www/BCN922'
-IMAGES_FOLDER = '/var/www/BCN922/images/impactes'
+BASE_FOLDER = './'
+IMAGES_FOLDER = './images/impactes'
 IMAGES_URL_PART = 'images/impactes'
 CLASSES = {(230, 230): 'rrcc',
            (110, 230): 'rrc',
@@ -53,6 +53,7 @@ pins = {u'ESTADI OLIMPIC': 'estadi',
         u'VILA OLIMPICA': 'vila',
         u'SEGON CINTURO': 'cinturo',
         u'TORRE COLLSEROLA': 'collserola',
+        u'VALL D\'HEBRON': 'valldhebron',
         }
 
 wb = xlrd.open_workbook('dades.xls')
