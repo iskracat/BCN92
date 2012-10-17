@@ -302,7 +302,7 @@ $(document).ready( function() {
         $('#impactesCarousel').carousel(position)
         setTimeout(function () {
         $('#impactesnav .back').toggleClass('active', position>0)
-        $('#impactesnav .forward').toggleClass('active', position<11)
+        $('#impactesnav .forward').toggleClass('active', position<12)
         $('#impactesnav .mapa').toggleClass('active', true)
         $('#map').toggleClass('dissolve', true)
         $('#bigone').toggleClass('dissolve', false)        
