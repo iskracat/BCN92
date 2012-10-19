@@ -246,7 +246,7 @@ $(document).ready( function() {
                 $('#impactesCarousel').carousel(position+1)
             }
             $('#impactesnav .back').toggleClass('active', position+1>0)
-            $('#impactesnav .forward').toggleClass('active', position+1<11)
+            $('#impactesnav .forward').toggleClass('active', position+1<12)
         }
     })
 
@@ -268,7 +268,7 @@ $(document).ready( function() {
             $('#impactesCarousel').carousel(position-1)
         }
         $('#impactesnav .back').toggleClass('active', position-1>0)
-        $('#impactesnav .forward').toggleClass('active', position-1<11)
+        $('#impactesnav .forward').toggleClass('active', position-1<12)
 
     })
 
