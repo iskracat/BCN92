@@ -239,7 +239,7 @@ $(document).ready( function() {
             // Search the active carousel item
             position = $('#impactesCarousel .active.item').index()
             // if we are not in the last item
-            if (position < 11) {
+            if (position < 12) {
                 // get the page name and load it, then position carousel
                 page = $($('#impactesCarousel .item').get(position+1)).attr('id')
                 loadImpactesPage(page)
